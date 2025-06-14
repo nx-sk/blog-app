@@ -8,6 +8,7 @@ import Layout from './components/layout/Layout'
 import Home from './pages/Home'
 import PostPage from './pages/PostPage'
 import Login from './pages/Login'
+import TestAuth from './pages/TestAuth'
 import Dashboard from './pages/admin/Dashboard'
 import PostList from './pages/admin/PostList'
 import PostEditor from './pages/admin/PostEditor'
@@ -42,6 +43,7 @@ const AppContent: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/posts/:slug" element={<PostPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/test-auth" element={<TestAuth />} />
           <Route
             path="/admin"
             element={
