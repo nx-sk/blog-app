@@ -24,6 +24,8 @@ import {
   clearCurrentPost,
 } from '../../store/slices/postsSlice'
 import MarkdownEditor from '../../components/editor/MarkdownEditor'
+import SimpleMarkdownEditor from '../../components/editor/SimpleMarkdownEditor'
+import PlainTextEditor from '../../components/editor/PlainTextEditor'
 import Loading from '../../components/common/Loading'
 
 const PostEditor: React.FC = () => {
@@ -45,6 +47,8 @@ const PostEditor: React.FC = () => {
     featured_image: '',
     status: 'draft' as 'draft' | 'published',
   })
+
+  const [editorType, setEditorType] = useState<'plain' | 'simple' | 'rich'>('plain') // デフォルトでプレーンエディタを使用
 
   useEffect(() => {
     if (isEdit && id) {
@@ -204,10 +208,48 @@ const PostEditor: React.FC = () => {
 
         <FormControl isRequired>
           <FormLabel>本文</FormLabel>
-          <MarkdownEditor
-            value={formData.content}
-            onChange={(value) => handleChange('content', value)}
-          />
+          <HStack spacing={4} mb={2}>
+            <Button
+              size="sm"
+              variant={editorType === 'plain' ? "solid" : "outline"}
+              colorScheme="blue"
+              onClick={() => setEditorType('plain')}
+            >
+              プレーンエディタ
+            </Button>
+            <Button
+              size="sm"
+              variant={editorType === 'simple' ? "solid" : "outline"}
+              colorScheme="blue"
+              onClick={() => setEditorType('simple')}
+            >
+              シンプルエディタ
+            </Button>
+            <Button
+              size="sm"
+              variant={editorType === 'rich' ? "solid" : "outline"}
+              colorScheme="blue"
+              onClick={() => setEditorType('rich')}
+            >
+              リッチエディタ
+            </Button>
+          </HStack>
+          {editorType === 'plain' ? (
+            <PlainTextEditor
+              value={formData.content}
+              onChange={(value) => handleChange('content', value)}
+            />
+          ) : editorType === 'simple' ? (
+            <SimpleMarkdownEditor
+              value={formData.content}
+              onChange={(value) => handleChange('content', value)}
+            />
+          ) : (
+            <MarkdownEditor
+              value={formData.content}
+              onChange={(value) => handleChange('content', value)}
+            />
+          )}
         </FormControl>
 
         <Divider />
