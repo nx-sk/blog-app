@@ -9,6 +9,7 @@ import Home from './pages/Home'
 import PostPage from './pages/PostPage'
 import Login from './pages/Login'
 import TestAuth from './pages/TestAuth'
+import Introduction from './pages/Introduction'
 import Dashboard from './pages/admin/Dashboard'
 import PostList from './pages/admin/PostList'
 import PostEditor from './pages/admin/PostEditor'
@@ -42,6 +43,7 @@ const AppContent: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/posts/:slug" element={<PostPage />} />
+          <Route path="/introduction" element={<Introduction />} />
           <Route path="/login" element={<Login />} />
           <Route path="/test-auth" element={<TestAuth />} />
           <Route

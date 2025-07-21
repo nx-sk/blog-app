@@ -9,7 +9,6 @@ import {
   Textarea,
   VStack,
   HStack,
-  Select,
   Switch,
   useToast,
   Heading,
@@ -23,9 +22,7 @@ import {
   fetchPostStart,
   clearCurrentPost,
 } from '../../store/slices/postsSlice'
-import MarkdownEditor from '../../components/editor/MarkdownEditor'
-import SimpleMarkdownEditor from '../../components/editor/SimpleMarkdownEditor'
-import PlainTextEditor from '../../components/editor/PlainTextEditor'
+import EnhancedPlainTextEditor from '../../components/editor/EnhancedPlainTextEditor'
 import Loading from '../../components/common/Loading'
 
 const PostEditor: React.FC = () => {
@@ -47,8 +44,6 @@ const PostEditor: React.FC = () => {
     featured_image: '',
     status: 'draft' as 'draft' | 'published',
   })
-
-  const [editorType, setEditorType] = useState<'plain' | 'simple' | 'rich'>('plain') // デフォルトでプレーンエディタを使用
 
   useEffect(() => {
     if (isEdit && id) {
@@ -81,8 +76,8 @@ const PostEditor: React.FC = () => {
       [field]: value,
     }))
 
-    // タイトルが変更されたときにスラッグを自動生成
-    if (field === 'title' && !isEdit) {
+    // タイトルが変更されたときにスラッグを自動生成（新規作成時のみ）
+    if (field === 'title' && !isEdit && !formData.slug) {
       const slug = value
         .toLowerCase()
         .replace(/[^a-z0-9\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/g, '-')
@@ -107,8 +102,19 @@ const PostEditor: React.FC = () => {
       return
     }
 
+    // スラッグが空の場合はYYYYMMDD形式で自動生成
+    let finalSlug = formData.slug.trim()
+    if (!finalSlug) {
+      const now = new Date()
+      const year = now.getFullYear()
+      const month = String(now.getMonth() + 1).padStart(2, '0')
+      const day = String(now.getDate()).padStart(2, '0')
+      finalSlug = `${year}${month}${day}`
+    }
+
     const postData = {
       ...formData,
+      slug: finalSlug,
       author_id: user?.id || '',
       published_at: formData.status === 'published' ? new Date().toISOString() : undefined,
     }
@@ -133,8 +139,19 @@ const PostEditor: React.FC = () => {
   }
 
   const handleSaveDraft = () => {
+    // スラッグが空の場合はYYYYMMDD形式で自動生成
+    let finalSlug = formData.slug.trim()
+    if (!finalSlug) {
+      const now = new Date()
+      const year = now.getFullYear()
+      const month = String(now.getMonth() + 1).padStart(2, '0')
+      const day = String(now.getDate()).padStart(2, '0')
+      finalSlug = `${year}${month}${day}`
+    }
+
     const draftData = {
       ...formData,
+      slug: finalSlug,
       status: 'draft' as const,
       author_id: user?.id || '',
     }
@@ -161,136 +178,101 @@ const PostEditor: React.FC = () => {
   }
 
   return (
-    <Box maxW="4xl" mx="auto">
+    <Box maxW="100%" mx="auto" px={4} py={6}>
       <VStack spacing={6} align="stretch">
-        <Heading as="h1" size="xl">
-          {isEdit ? '記事編集' : '新規記事作成'}
-        </Heading>
+        <HStack justify="space-between" align="center">
+          <Heading as="h1" size="xl">
+            {isEdit ? '記事編集' : '新規記事作成'}
+          </Heading>
+          
+          <HStack spacing={4}>
+            <FormControl display="flex" alignItems="center" width="auto">
+              <FormLabel htmlFor="publish-switch" mb="0" mr={2}>
+                公開する
+              </FormLabel>
+              <Switch
+                id="publish-switch"
+                isChecked={formData.status === 'published'}
+                onChange={(e) =>
+                  handleChange('status', e.target.checked ? 'published' : 'draft')
+                }
+              />
+            </FormControl>
+            
+            <Button
+              variant="outline"
+              onClick={() => navigate('/admin/posts')}
+            >
+              キャンセル
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleSaveDraft}
+              isLoading={loading}
+            >
+              下書き保存
+            </Button>
+            <Button
+              colorScheme="brand"
+              onClick={handleSubmit}
+              isLoading={loading}
+            >
+              {isEdit ? '更新' : '作成'}
+            </Button>
+          </HStack>
+        </HStack>
 
-        <FormControl isRequired>
-          <FormLabel>タイトル</FormLabel>
-          <Input
-            value={formData.title}
-            onChange={(e) => handleChange('title', e.target.value)}
-            placeholder="記事のタイトル"
-          />
-        </FormControl>
+        <HStack spacing={4} align="start">
+          <FormControl isRequired flex={2}>
+            <FormLabel>タイトル</FormLabel>
+            <Input
+              value={formData.title}
+              onChange={(e) => handleChange('title', e.target.value)}
+              placeholder="記事のタイトル"
+            />
+          </FormControl>
 
-        <FormControl>
-          <FormLabel>スラッグ</FormLabel>
-          <Input
-            value={formData.slug}
-            onChange={(e) => handleChange('slug', e.target.value)}
-            placeholder="記事のURL（例: hello-world）"
-          />
-        </FormControl>
+          <FormControl flex={1}>
+            <FormLabel>スラッグ</FormLabel>
+            <Input
+              value={formData.slug}
+              onChange={(e) => handleChange('slug', e.target.value)}
+              placeholder="自動生成: YYYYMMDD"
+            />
+          </FormControl>
+        </HStack>
 
-        <FormControl>
-          <FormLabel>概要</FormLabel>
-          <Textarea
-            value={formData.excerpt}
-            onChange={(e) => handleChange('excerpt', e.target.value)}
-            placeholder="記事の概要（任意）"
-            rows={3}
-          />
-        </FormControl>
+        <HStack spacing={4} align="start">
+          <FormControl flex={2}>
+            <FormLabel>概要</FormLabel>
+            <Textarea
+              value={formData.excerpt}
+              onChange={(e) => handleChange('excerpt', e.target.value)}
+              placeholder="記事の概要（任意）"
+              rows={2}
+            />
+          </FormControl>
 
-        <FormControl>
-          <FormLabel>アイキャッチ画像URL</FormLabel>
-          <Input
-            value={formData.featured_image}
-            onChange={(e) => handleChange('featured_image', e.target.value)}
-            placeholder="https://example.com/image.jpg"
-          />
-        </FormControl>
+          <FormControl flex={1}>
+            <FormLabel>アイキャッチ画像URL</FormLabel>
+            <Input
+              value={formData.featured_image}
+              onChange={(e) => handleChange('featured_image', e.target.value)}
+              placeholder="https://example.com/image.jpg"
+            />
+          </FormControl>
+        </HStack>
 
         <Divider />
 
         <FormControl isRequired>
           <FormLabel>本文</FormLabel>
-          <HStack spacing={4} mb={2}>
-            <Button
-              size="sm"
-              variant={editorType === 'plain' ? "solid" : "outline"}
-              colorScheme="blue"
-              onClick={() => setEditorType('plain')}
-            >
-              プレーンエディタ
-            </Button>
-            <Button
-              size="sm"
-              variant={editorType === 'simple' ? "solid" : "outline"}
-              colorScheme="blue"
-              onClick={() => setEditorType('simple')}
-            >
-              シンプルエディタ
-            </Button>
-            <Button
-              size="sm"
-              variant={editorType === 'rich' ? "solid" : "outline"}
-              colorScheme="blue"
-              onClick={() => setEditorType('rich')}
-            >
-              リッチエディタ
-            </Button>
-          </HStack>
-          {editorType === 'plain' ? (
-            <PlainTextEditor
-              value={formData.content}
-              onChange={(value) => handleChange('content', value)}
-            />
-          ) : editorType === 'simple' ? (
-            <SimpleMarkdownEditor
-              value={formData.content}
-              onChange={(value) => handleChange('content', value)}
-            />
-          ) : (
-            <MarkdownEditor
-              value={formData.content}
-              onChange={(value) => handleChange('content', value)}
-            />
-          )}
+          <EnhancedPlainTextEditor
+            value={formData.content}
+            onChange={(value) => handleChange('content', value)}
+            postId={currentPost?.id?.toString()}
+          />
         </FormControl>
-
-        <Divider />
-
-        <HStack spacing={4}>
-          <FormControl display="flex" alignItems="center">
-            <FormLabel htmlFor="publish-switch" mb="0">
-              公開する
-            </FormLabel>
-            <Switch
-              id="publish-switch"
-              isChecked={formData.status === 'published'}
-              onChange={(e) =>
-                handleChange('status', e.target.checked ? 'published' : 'draft')
-              }
-            />
-          </FormControl>
-        </HStack>
-
-        <HStack spacing={4} justify="flex-end">
-          <Button
-            variant="outline"
-            onClick={() => navigate('/admin/posts')}
-          >
-            キャンセル
-          </Button>
-          <Button
-            variant="outline"
-            onClick={handleSaveDraft}
-            isLoading={loading}
-          >
-            下書き保存
-          </Button>
-          <Button
-            colorScheme="brand"
-            onClick={handleSubmit}
-            isLoading={loading}
-          >
-            {isEdit ? '更新' : '作成'}
-          </Button>
-        </HStack>
       </VStack>
     </Box>
   )

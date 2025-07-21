@@ -64,7 +64,17 @@ const Header: React.FC = () => {
 
         <Spacer />
 
-        <Flex align="center" gap={2}>
+        <Flex align="center" gap={4}>
+          <Text
+            as={Link}
+            to="/introduction"
+            fontSize="md"
+            fontWeight="medium"
+            color="gray.600"
+            _hover={{ color: 'brand.500', textDecoration: 'none' }}
+          >
+            自己紹介
+          </Text>
           <IconButton
             aria-label="Toggle color mode"
             icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
