@@ -21,7 +21,7 @@ import { RootState } from '../../store'
 import { fetchPostsStart } from '../../store/slices/postsSlice'
 import { AddIcon, EditIcon } from '@chakra-ui/icons'
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
   const dispatch = useDispatch()
   const { posts, loading } = useSelector((state: RootState) => state.posts)
   const { user } = useSelector((state: RootState) => state.auth)

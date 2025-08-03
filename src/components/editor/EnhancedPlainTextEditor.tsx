@@ -42,7 +42,7 @@ interface TOCItem {
   level: number
 }
 
-const EnhancedPlainTextEditor: React.FC<EnhancedPlainTextEditorProps> = ({ value, onChange, postId }) => {
+const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextEditorProps) => {
   const { colorMode } = useColorMode()
   const toast = useToast()
   const textareaRef = useRef<HTMLTextAreaElement>(null)

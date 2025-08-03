@@ -33,7 +33,7 @@ import { fetchPostsStart, deletePostStart, setFilters } from '../../store/slices
 import { AddIcon, EditIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons'
 import Loading from '../../components/common/Loading'
 
-const PostList: React.FC = () => {
+const PostList = () => {
   const dispatch = useDispatch()
   const { posts, loading, filters } = useSelector((state: RootState) => state.posts)
   const { isOpen, onOpen, onClose } = useDisclosure()

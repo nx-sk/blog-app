@@ -14,7 +14,7 @@ interface TOCItem {
   level: number
 }
 
-const PostPage: React.FC = () => {
+const PostPage = () => {
   const { slug } = useParams<{ slug: string }>()
   const dispatch = useDispatch()
   const { currentPost, loading, error } = useSelector((state: RootState) => state.posts)

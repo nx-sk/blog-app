@@ -25,7 +25,7 @@ import {
 import EnhancedPlainTextEditor from '../../components/editor/EnhancedPlainTextEditor'
 import Loading from '../../components/common/Loading'
 
-const PostEditor: React.FC = () => {
+const PostEditor = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const dispatch = useDispatch()

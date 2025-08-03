@@ -1,13 +1,14 @@
 import React from 'react'
-import { Box, Container, Text, HStack, Link, useColorModeValue } from '@chakra-ui/react'
+import { Box, Text, HStack, Link, useColorModeValue } from '@chakra-ui/react'
+import Container from './Container'
 
-const Footer: React.FC = () => {
+const Footer = () => {
   const textColor = useColorModeValue('gray.500', 'gray.500')
   const linkColor = useColorModeValue('gray.600', 'gray.400')
 
   return (
     <Box as="footer" py={16} mt={20}>
-      <Container maxW="container.xl">
+      <Container>
         <Box textAlign="center">
           <HStack spacing={6} justify="center" mb={4}>
             <Link 

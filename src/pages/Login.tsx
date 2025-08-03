@@ -17,7 +17,7 @@ import { RootState } from '../store'
 import { loginStart } from '../store/slices/authSlice'
 import Loading from '../components/common/Loading'
 
-const Login: React.FC = () => {
+const Login = () => {
   const dispatch = useDispatch()
   const { loading, error } = useSelector((state: RootState) => state.auth)
 

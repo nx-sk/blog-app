@@ -16,9 +16,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { RootState } from '../../store'
 import { loginStart, logout } from '../../store/slices/authSlice'
+import Container from './Container'
 import '../../styles/crystalGlass.css'
 
-const Header: React.FC = () => {
+const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -46,141 +47,189 @@ const Header: React.FC = () => {
   ]
 
   return (
-    <>
-      {/* Main Navigation */}
-      <nav className="crystal-nav">
-        <Text
-          as={Link}
-          to="/"
-          fontSize="md"
-          fontWeight="600"
-          color={textColor}
-          textDecoration="none"
-          mr={4}
-          _hover={{ textDecoration: 'none' }}
-          letterSpacing="-0.02em"
+    <Box
+      as="header"
+      position="fixed"
+      top={0}
+      left={0}
+      right={0}
+      zIndex={1000}
+      py={6}
+    >
+      <Container>
+        <Box 
+          className="crystal-glass crystal-glass--elevated"
+          px={{ base: 4, md: 6 }}
+          py={6}
+          borderRadius="20px"
         >
-          Blog
-        </Text>
-
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            to={item.href}
-            className={`crystal-nav__item ${location.pathname === item.href ? 'crystal-nav__item--active' : ''}`}
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            flexWrap={{ base: 'wrap', lg: 'nowrap' }}
+            gap={6}
           >
-            {item.label}
-          </Link>
-        ))}
-      </nav>
-      
-      {/* Additional Controls */}
-      <Box 
-        position="fixed" 
-        top="20px" 
-        right="20px" 
-        zIndex="1001"
-        display="flex"
-        gap={2}
-        alignItems="center"
-      >
-        <IconButton
-          aria-label="Toggle color mode"
-          icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-          onClick={toggleColorMode}
-          size="sm"
-          borderRadius="8px"
-          className="crystal-button crystal-button--ghost"
-          bg="transparent"
-          _hover={{
-            bg: "var(--crystal-white-5)",
-          }}
-        />
-
-        {isAuthenticated && user ? (
-          <Menu>
-            <MenuButton
-              as={Box}
-              cursor="pointer"
-              transition="all 0.3s ease"
-              _hover={{
-                opacity: 0.8
-              }}
-            >
-              <Avatar 
-                size="sm" 
-                src={user.user_metadata?.avatar_url} 
-                border="1px solid"
-                borderColor="var(--crystal-edge)"
-              />
-            </MenuButton>
-            <MenuList
-              bg={menuBgColor}
-              backdropFilter="blur(16px)"
-              border="1px solid"
-              borderColor="var(--crystal-edge)"
-              borderRadius="12px"
-              boxShadow="var(--crystal-shadow-float)"
-              minW="180px"
-              py={1}
-            >
-              <MenuItem 
-                as={Link} 
-                to="/admin"
-                bg="transparent"
-                _hover={{
-                  bg: "var(--crystal-white-5)",
-                }}
-                borderRadius="6px"
-                mx="4px"
+            {/* Brand & Title Section */}
+            <Box flex="1" minW="300px">
+              <Box display="flex" alignItems="center" gap={3} mb={2}>
+                <Text
+                  as={Link}
+                  to="/"
+                  fontSize="2xl"
+                  fontWeight="700"
+                  color={textColor}
+                  textDecoration="none"
+                  _hover={{ textDecoration: 'none' }}
+                  letterSpacing="-0.03em"
+                  lineHeight="1"
+                >
+                  Digital Atelier
+                </Text>
+                <Box
+                  w="1px"
+                  h="20px"
+                  bg="var(--crystal-edge)"
+                  opacity="0.6"
+                />
+                <Text
+                  fontSize="sm"
+                  color={menuTextColor}
+                  fontWeight="500"
+                  letterSpacing="0.05em"
+                  textTransform="uppercase"
+                >
+                  Blog
+                </Text>
+              </Box>
+              <Text
                 fontSize="sm"
-              >
-                管理画面
-              </MenuItem>
-              <MenuItem 
-                as={Link} 
-                to="/admin/posts/new"
-                bg="transparent"
-                _hover={{
-                  bg: "var(--crystal-white-5)",
-                }}
-                borderRadius="6px"
-                mx="4px"
-                fontSize="sm"
-              >
-                新規記事
-              </MenuItem>
-              <Box 
-                h="1px" 
-                bg="var(--crystal-edge)" 
-                my={1} 
-                mx={2}
-              />
-              <MenuItem 
-                onClick={handleLogout}
-                bg="transparent"
-                _hover={{
-                  bg: "var(--crystal-white-5)",
-                }}
-                borderRadius="6px"
-                mx="4px"
                 color={menuTextColor}
-                fontSize="sm"
+                lineHeight="1.5"
+                opacity="0.9"
               >
-                ログアウト
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        ) : (
-          <button
-            onClick={handleLogin}
-            className="crystal-button crystal-button--primary"
-          >
-            ログイン
-          </button>
-        )}
-      </Box>
-    </>
+                Technology, Design & Creative Engineering
+              </Text>
+            </Box>
+
+            {/* Navigation Section */}
+            <Box display="flex" alignItems="center" gap={4}>
+              <Box display={{ base: 'none', md: 'flex' }} alignItems="center" gap={2}>
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    className={`crystal-button ${location.pathname === item.href ? 'crystal-button--primary' : 'crystal-button--ghost'}`}
+                    style={{
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      padding: '8px 16px',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </Box>
+
+              {/* Control Buttons */}
+              <Box display="flex" alignItems="center" gap={2}>
+                <IconButton
+                  aria-label="Toggle color mode"
+                  icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                  onClick={toggleColorMode}
+                  size="sm"
+                  borderRadius="8px"
+                  className="crystal-button crystal-button--ghost"
+                  bg="transparent"
+                  minW="auto"
+                  h="auto"
+                  p={2}
+                  _hover={{
+                    bg: "var(--crystal-white-5)",
+                  }}
+                />
+
+                {isAuthenticated && user ? (
+                  <Menu>
+                    <MenuButton
+                      as={Box}
+                      cursor="pointer"
+                      transition="all 0.3s ease"
+                      _hover={{ opacity: 0.8 }}
+                    >
+                      <Avatar 
+                        size="sm" 
+                        src={user.user_metadata?.avatar_url} 
+                        border="1px solid"
+                        borderColor="var(--crystal-edge)"
+                      />
+                    </MenuButton>
+                    <MenuList
+                      bg={menuBgColor}
+                      backdropFilter="blur(16px)"
+                      border="1px solid"
+                      borderColor="var(--crystal-edge)"
+                      borderRadius="12px"
+                      boxShadow="var(--crystal-shadow-float)"
+                      minW="180px"
+                      py={1}
+                    >
+                      <MenuItem 
+                        as={Link} 
+                        to="/admin"
+                        bg="transparent"
+                        _hover={{ bg: "var(--crystal-white-5)" }}
+                        borderRadius="6px"
+                        mx="4px"
+                        fontSize="sm"
+                      >
+                        管理画面
+                      </MenuItem>
+                      <MenuItem 
+                        as={Link} 
+                        to="/admin/posts/new"
+                        bg="transparent"
+                        _hover={{ bg: "var(--crystal-white-5)" }}
+                        borderRadius="6px"
+                        mx="4px"
+                        fontSize="sm"
+                      >
+                        新規記事
+                      </MenuItem>
+                      <Box h="1px" bg="var(--crystal-edge)" my={1} mx={2} />
+                      <MenuItem 
+                        onClick={handleLogout}
+                        bg="transparent"
+                        _hover={{ bg: "var(--crystal-white-5)" }}
+                        borderRadius="6px"
+                        mx="4px"
+                        color={menuTextColor}
+                        fontSize="sm"
+                      >
+                        ログアウト
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                ) : (
+                  <button
+                    onClick={handleLogin}
+                    className="crystal-button crystal-button--primary"
+                    style={{
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      padding: '8px 16px',
+                    }}
+                  >
+                    ログイン
+                  </button>
+                )}
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Container>
+    </Box>
   )
 }
 

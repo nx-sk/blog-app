@@ -21,7 +21,7 @@ interface SimpleMarkdownEditorProps {
   onChange: (value: string) => void
 }
 
-const SimpleMarkdownEditor: React.FC<SimpleMarkdownEditorProps> = ({ value, onChange }) => {
+const SimpleMarkdownEditor = ({ value, onChange }: SimpleMarkdownEditorProps) => {
   const { colorMode } = useColorMode()
   const toast = useToast()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
