@@ -5,7 +5,7 @@ interface LoadingProps {
   message?: string
 }
 
-const Loading: React.FC<LoadingProps> = ({ message = '読み込み中...' }) => {
+const Loading = ({ message = '読み込み中...' }: LoadingProps) => {
   return (
     <Box
       display="flex"

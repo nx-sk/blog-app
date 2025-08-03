@@ -13,7 +13,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-const Introduction: React.FC = () => {
+const Introduction = () => {
   const bgGradient = useColorModeValue(
     'linear(to-br, #f5f7fa, #c3cfe2)',
     'linear(to-br, gray.900, gray.700)'

@@ -24,7 +24,7 @@ interface PlainTextEditorProps {
   onChange: (value: string) => void
 }
 
-const PlainTextEditor: React.FC<PlainTextEditorProps> = ({ value, onChange }) => {
+const PlainTextEditor = ({ value, onChange }: PlainTextEditorProps) => {
   const { colorMode } = useColorMode()
   const toast = useToast()
   const textareaRef = useRef<HTMLTextAreaElement>(null)

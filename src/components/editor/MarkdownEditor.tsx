@@ -9,7 +9,7 @@ interface MarkdownEditorProps {
   onChange: (value: string) => void
 }
 
-const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ value, onChange }) => {
+const MarkdownEditor = ({ value, onChange }: MarkdownEditorProps) => {
   const { colorMode } = useColorMode()
   const toast = useToast()
   const editorRef = useRef<HTMLDivElement>(null)

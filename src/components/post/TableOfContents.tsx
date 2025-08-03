@@ -17,7 +17,7 @@ interface TableOfContentsProps {
   items: TOCItem[]
 }
 
-const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
+const TableOfContents = ({ items }: TableOfContentsProps) => {
   const bg = useColorModeValue('gray.50', 'gray.700')
   const borderColor = useColorModeValue('gray.200', 'gray.600')
   const linkColor = useColorModeValue('gray.600', 'gray.300')

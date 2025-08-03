@@ -8,7 +8,7 @@ interface PrivateRouteProps {
   children: React.ReactNode
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const { isAuthenticated, loading } = useSelector((state: RootState) => state.auth)
 
   if (loading) {

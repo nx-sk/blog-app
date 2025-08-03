@@ -178,7 +178,7 @@
 
 .crystal-card__body {
   position: relative;
-  padding: 24px 28px;
+  /* パディングと高さはコンポーネント側で制御 */
 }
 
 .crystal-card__footer {

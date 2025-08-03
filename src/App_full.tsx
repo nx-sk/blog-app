@@ -16,7 +16,7 @@ import { supabase } from './services/supabase'
 import { useDispatch } from 'react-redux'
 import { setUser } from './store/slices/authSlice'
 
-const AppContent: React.FC = () => {
+const AppContent = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {

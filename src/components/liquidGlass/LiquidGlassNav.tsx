@@ -15,10 +15,10 @@ export interface LiquidGlassNavProps {
   logo?: React.ReactNode;
 }
 
-const LiquidGlassNav: React.FC<LiquidGlassNavProps> = ({
+const LiquidGlassNav = ({
   items,
   logo
-}) => {
+}: LiquidGlassNavProps) => {
   const navRef = useRef<HTMLDivElement | null>(null);
   const location = useLocation();
   

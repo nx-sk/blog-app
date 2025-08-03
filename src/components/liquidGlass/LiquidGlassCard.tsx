@@ -11,7 +11,7 @@ export interface LiquidGlassCardProps extends BoxProps {
   children?: React.ReactNode;
 }
 
-const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({
+const LiquidGlassCard = ({
   variant = 'medium',
   size = 'medium',
   interactive = true,
@@ -19,7 +19,7 @@ const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({
   children,
   className = '',
   ...boxProps
-}) => {
+}: LiquidGlassCardProps) => {
   const cardRef = useRef<HTMLDivElement | null>(null);
   
   const defaultGlassOptions: LiquidGlassOptions = {

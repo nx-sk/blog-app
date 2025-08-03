@@ -17,7 +17,7 @@ interface ZennStyleTableOfContentsProps {
   items: TOCItem[]
 }
 
-const ZennStyleTableOfContents: React.FC<ZennStyleTableOfContentsProps> = ({ items }) => {
+const ZennStyleTableOfContents = ({ items }: ZennStyleTableOfContentsProps) => {
   const { colorMode } = useColorMode()
   const [activeId, setActiveId] = useState<string>('')
   

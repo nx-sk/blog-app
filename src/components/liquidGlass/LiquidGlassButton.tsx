@@ -9,7 +9,7 @@ export interface LiquidGlassButtonProps extends Omit<ButtonProps, 'variant'> {
   to?: string;
 }
 
-const LiquidGlassButton: React.FC<LiquidGlassButtonProps> = ({
+const LiquidGlassButton = ({
   variant = 'glass',
   glassOptions = {},
   children,
@@ -17,7 +17,7 @@ const LiquidGlassButton: React.FC<LiquidGlassButtonProps> = ({
   onClick,
   to,
   ...buttonProps
-}) => {
+}: LiquidGlassButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   
   const defaultGlassOptions: LiquidGlassOptions = {

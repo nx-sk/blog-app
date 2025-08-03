@@ -3,7 +3,7 @@ import { Box, VStack, Text, Button, Heading, Code } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../services/supabase'
 
-const TestAuth: React.FC = () => {
+const TestAuth = () => {
   const navigate = useNavigate()
 
   useEffect(() => {

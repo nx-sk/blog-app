@@ -27,7 +27,7 @@ interface TOCItem {
   level: number
 }
 
-const PostDetail: React.FC<PostDetailProps> = ({ post }) => {
+const PostDetail = ({ post }: PostDetailProps) => {
   const { colorMode } = useColorMode()
   const [tocItems, setTocItems] = useState<TOCItem[]>([])
   
