@@ -6,48 +6,42 @@ const theme = extendTheme({
     useSystemColorMode: false,
   },
   fonts: {
-    heading: `'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`,
-    body: `'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`,
+    heading: `-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif`,
+    body: `-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif`,
   },
   colors: {
-    brand: {
-      50: '#e3f2fd',
-      100: '#bbdefb',
-      200: '#90caf9',
-      300: '#64b5f6',
-      400: '#42a5f5',
-      500: '#2196f3',
-      600: '#1e88e5',
-      700: '#1976d2',
-      800: '#1565c0',
-      900: '#0d47a1',
+    gray: {
+      50: '#fafafa',
+      100: '#f5f5f5',
+      200: '#e5e5e5',
+      300: '#d4d4d4',
+      400: '#a3a3a3',
+      500: '#737373',
+      600: '#525252',
+      700: '#404040',
+      800: '#262626',
+      900: '#171717',
     },
   },
   components: {
-    Button: {
-      defaultProps: {
-        colorScheme: 'brand',
-      },
-    },
-    Card: {
+    Container: {
       baseStyle: {
-        container: {
-          borderRadius: 'lg',
-          overflow: 'hidden',
-          boxShadow: 'sm',
-          _hover: {
-            boxShadow: 'md',
-            transform: 'translateY(-2px)',
-            transition: 'all 0.2s',
-          },
-        },
+        maxW: '1000px',
+        px: { base: 4, md: 6 },
       },
     },
   },
   styles: {
     global: (props: any) => ({
-      body: {
-        bg: props.colorMode === 'dark' ? 'gray.900' : 'gray.50',
+      'html, body': {
+        bg: props.colorMode === 'dark' ? '#0a0a0a' : '#fafafa',
+        color: props.colorMode === 'dark' ? 'gray.100' : 'gray.900',
+        fontSize: '16px',
+        lineHeight: '1.6',
+      },
+      '::selection': {
+        bg: props.colorMode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.06)',
+        color: 'inherit',
       },
     }),
   },

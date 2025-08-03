@@ -11,7 +11,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <Box minH="100vh" display="flex" flexDirection="column">
       <Header />
-      <Container maxW="container.xl" flex={1} py={8}>
+      <Container maxW="container.xl" flex={1} pt={24} pb={8} px={{ base: 4, md: 8 }}>
         {children}
       </Container>
       <Footer />

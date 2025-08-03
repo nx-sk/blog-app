@@ -145,7 +145,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post }) => {
   }
 
   return (
-    <Box maxW="4xl" mx="auto">
+    <Box>
       {/* ヘッダー部分 */}
       <VStack spacing={4} align="stretch" mb={8}>
         <Heading as="h1" size="2xl" lineHeight="1.2">
@@ -179,27 +179,10 @@ const PostDetail: React.FC<PostDetailProps> = ({ post }) => {
         )}
       </VStack>
 
-      <Box display="flex" gap={8} alignItems="flex-start">
-        {/* メインコンテンツ */}
-        <Box flex={1}>
-          <Divider mb={6} />
-          <ReactMarkdown components={components}>
-            {post.content}
-          </ReactMarkdown>
-        </Box>
-
-        {/* 目次 */}
-        {tocItems.length > 0 && (
-          <Box
-            position="sticky"
-            top="100px"
-            w="250px"
-            display={{ base: 'none', lg: 'block' }}
-          >
-            <TableOfContents items={tocItems} />
-          </Box>
-        )}
-      </Box>
+      <Divider mb={6} />
+      <ReactMarkdown components={components}>
+        {post.content}
+      </ReactMarkdown>
     </Box>
   )
 }
