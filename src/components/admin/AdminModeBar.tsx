@@ -32,6 +32,8 @@ import {
 import { logout } from '../../store/slices/authSlice'
 import { supabase } from '../../services/supabase'
 
+type AnyIcon = React.ComponentType<any>
+
 const AdminModeBar: React.FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -167,13 +169,13 @@ const AdminModeBar: React.FC = () => {
         {/* 左側: 管理モード表示とトグル */}
         <HStack spacing={4}>
           <HStack spacing={2}>
-            <Icon as={FiSettings} />
+            <Icon as={FiSettings as AnyIcon} />
             <Text fontWeight="bold">管理モード</Text>
           </HStack>
           <Tooltip label={isAdminMode ? '管理モードを終了' : '管理モードを開始'}>
             <IconButton
               aria-label="Toggle admin mode"
-              icon={<Icon as={FiPower} />}
+              icon={<Icon as={FiPower as AnyIcon} />}
               size="sm"
               colorScheme={isAdminMode ? 'green' : 'gray'}
               variant={isAdminMode ? 'solid' : 'outline'}
@@ -187,7 +189,7 @@ const AdminModeBar: React.FC = () => {
           <HStack spacing={4}>
             {!isPostPage && (
               <Button
-                leftIcon={<Icon as={FiPlus} />}
+                leftIcon={<Icon as={FiPlus as AnyIcon} />}
                 size="sm"
                 colorScheme="green"
                 variant="solid"
@@ -203,7 +205,7 @@ const AdminModeBar: React.FC = () => {
                   <Tooltip label="編集モード">
                     <IconButton
                       aria-label="Edit mode"
-                      icon={<Icon as={FiEdit3} />}
+                      icon={<Icon as={FiEdit3 as AnyIcon} />}
                       size="sm"
                       colorScheme={isEditingMode ? 'yellow' : 'gray'}
                       variant={isEditingMode ? 'solid' : 'outline'}
@@ -213,7 +215,7 @@ const AdminModeBar: React.FC = () => {
                   <Tooltip label="プレビューモード">
                     <IconButton
                       aria-label="Preview mode"
-                      icon={<Icon as={FiEye} />}
+                      icon={<Icon as={FiEye as AnyIcon} />}
                       size="sm"
                       colorScheme={!isEditingMode ? 'blue' : 'gray'}
                       variant={!isEditingMode ? 'solid' : 'outline'}
@@ -232,7 +234,7 @@ const AdminModeBar: React.FC = () => {
 
                 <HStack spacing={2}>
                   <Button
-                    leftIcon={<Icon as={FiSave} />}
+                    leftIcon={<Icon as={FiSave as AnyIcon} />}
                     size="sm"
                     colorScheme="green"
                     onClick={handleSave}
@@ -241,7 +243,7 @@ const AdminModeBar: React.FC = () => {
                     保存
                   </Button>
                   <Button
-                    leftIcon={<Icon as={FiFileText} />}
+                    leftIcon={<Icon as={FiFileText as AnyIcon} />}
                     size="sm"
                     variant="outline"
                     onClick={handleDraftSave}
@@ -259,7 +261,7 @@ const AdminModeBar: React.FC = () => {
         <HStack spacing={4}>
           <Text fontSize="sm">{user?.email}</Text>
           <Button
-            leftIcon={<Icon as={FiLogOut} />}
+            leftIcon={<Icon as={FiLogOut as AnyIcon} />}
             size="sm"
             variant="outline"
             onClick={handleLogout}

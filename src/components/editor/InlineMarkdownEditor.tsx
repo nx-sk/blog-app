@@ -31,6 +31,8 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import rehypeSanitize from 'rehype-sanitize'
 
+type AnyIcon = React.ComponentType<any>
+
 interface InlineMarkdownEditorProps {
   value: string
   onChange: (value: string) => void
@@ -144,19 +146,19 @@ const InlineMarkdownEditor: React.FC<InlineMarkdownEditorProps> = ({
           <ButtonGroup size="sm" variant="ghost">
             <IconButton
               aria-label="Bold"
-              icon={<Icon as={FiBold} />}
+              icon={<Icon as={FiBold as AnyIcon} />}
               onClick={() => insertText('**', '**')}
               title="太字"
             />
             <IconButton
               aria-label="Italic"
-              icon={<Icon as={FiItalic} />}
+              icon={<Icon as={FiItalic as AnyIcon} />}
               onClick={() => insertText('*', '*')}
               title="斜体"
             />
             <IconButton
               aria-label="Code"
-              icon={<Icon as={FiCode} />}
+              icon={<Icon as={FiCode as AnyIcon} />}
               onClick={() => insertText('`', '`')}
               title="コード"
             />
@@ -196,25 +198,25 @@ const InlineMarkdownEditor: React.FC<InlineMarkdownEditorProps> = ({
           <ButtonGroup size="sm" variant="ghost">
             <IconButton
               aria-label="Link"
-              icon={<Icon as={FiLink} />}
+              icon={<Icon as={FiLink as AnyIcon} />}
               onClick={insertLink}
               title="リンク"
             />
             <IconButton
               aria-label="Image"
-              icon={<Icon as={FiImage} />}
+              icon={<Icon as={FiImage as AnyIcon} />}
               onClick={insertImage}
               title="画像"
             />
             <IconButton
               aria-label="List"
-              icon={<Icon as={FiList} />}
+              icon={<Icon as={FiList as AnyIcon} />}
               onClick={() => insertText('- ')}
               title="リスト"
             />
             <IconButton
               aria-label="Code Block"
-              icon={<Icon as={FiHash} />}
+              icon={<Icon as={FiHash as AnyIcon} />}
               onClick={insertCodeBlock}
               title="コードブロック"
             />
@@ -224,7 +226,7 @@ const InlineMarkdownEditor: React.FC<InlineMarkdownEditorProps> = ({
 
           <ButtonGroup size="sm">
             <Button
-              leftIcon={isPreview ? <Icon as={FiEdit} /> : <Icon as={FiEye} />}
+              leftIcon={isPreview ? <Icon as={FiEdit as AnyIcon} /> : <Icon as={FiEye as AnyIcon} />}
               onClick={() => setIsPreview(!isPreview)}
               colorScheme="purple"
               variant="outline"

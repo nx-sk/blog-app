@@ -67,7 +67,7 @@ const NewPostCard: React.FC = () => {
           bg="whiteAlpha.200"
           backdropFilter="blur(10px)"
         >
-          <Icon as={FiPlus} boxSize={8} />
+          <Icon as={FiPlus as unknown as React.ComponentType<any>} boxSize={8} />
         </Box>
         
         <VStack spacing={2} textAlign="center">
@@ -90,7 +90,7 @@ const NewPostCard: React.FC = () => {
           py={1}
           borderRadius="full"
         >
-          <Icon as={FiEdit} boxSize={3} />
+          <Icon as={FiEdit as unknown as React.ComponentType<any>} boxSize={3} />
           <Text>OnPage Editing</Text>
         </Box>
       </VStack>
