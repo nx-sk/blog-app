@@ -35,17 +35,17 @@ const GeometricBackground: React.FC = () => {
       constructor() {
         this.x = Math.random() * canvas.width
         this.y = Math.random() * canvas.height
-        this.size = Math.random() * 40 + 15
+        this.size = Math.random() * 36 + 12
         this.rotation = Math.random() * Math.PI * 2
-        this.rotationSpeed = (Math.random() - 0.5) * 0.01
-        this.opacity = Math.random() * 0.15 + 0.05
+        this.rotationSpeed = (Math.random() - 0.5) * 0.008
+        this.opacity = Math.random() * 0.1 + 0.05
         this.pulsePhase = Math.random() * Math.PI * 2
         
         const colors = [
-          'rgba(79, 70, 229, ',   // Indigo 600 (muted)
-          'rgba(99, 102, 241, ',  // Indigo 500
-          'rgba(148, 163, 184, ', // Slate 400
-          'rgba(45, 212, 191, ',  // Teal 400 (low alpha)
+          'rgba(99, 102, 241, ',   // Indigo 500
+          'rgba(168, 85, 247, ',   // Purple 500
+          'rgba(14, 165, 233, ',   // Sky 500
+          'rgba(203, 213, 225, ',  // Slate 300
         ]
         this.color = colors[Math.floor(Math.random() * colors.length)]
         
@@ -56,7 +56,7 @@ const GeometricBackground: React.FC = () => {
       update() {
         this.rotation += this.rotationSpeed
         this.pulsePhase += 0.02
-        this.opacity = 0.1 + Math.sin(this.pulsePhase) * 0.05 + 0.15
+        this.opacity = 0.08 + Math.sin(this.pulsePhase) * 0.04 + 0.12
       }
 
       draw(ctx: CanvasRenderingContext2D) {
@@ -121,7 +121,7 @@ const GeometricBackground: React.FC = () => {
         )
         
         if (distance < 200) {
-          this.opacity = (1 - distance / 200) * 0.2
+          this.opacity = (1 - distance / 200) * 0.15
         } else {
           this.opacity = 0
         }
@@ -145,7 +145,7 @@ const GeometricBackground: React.FC = () => {
     const shapes: GeometricShape[] = []
     const connections: ConnectionLine[] = []
     // 画面幅に応じて図形の数を調整（モバイルで負荷軽減）
-    const baseCount = 15
+    const baseCount = 12
     const shapeCount = window.innerWidth < 480 ? Math.max(8, Math.floor(baseCount * 0.6))
                       : window.innerWidth < 768 ? Math.floor(baseCount * 0.8)
                       : baseCount
@@ -172,7 +172,7 @@ const GeometricBackground: React.FC = () => {
 
     // アニメーションループ
     const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.06)'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
       // マウスに近い図形を強調
@@ -224,7 +224,7 @@ const GeometricBackground: React.FC = () => {
       right={0}
       bottom={0}
       zIndex={0}
-      bg="linear-gradient(135deg, #0f172a 0%, #111827 35%, #1f2937 70%, #0f172a 100%)"
+      bg="linear-gradient(135deg, #ffffff 0%, #f8fafc 40%, #f1f5f9 100%)"
       backgroundSize="200% 200%"
       animation="gradientShift 40s ease infinite"
       pointerEvents="none"
@@ -235,7 +235,7 @@ const GeometricBackground: React.FC = () => {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.12) 0%, transparent 50%)',
+        background: 'radial-gradient(circle at 20% 80%, rgba(168, 85, 247, 0.06) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.06) 0%, transparent 50%)',
       }}
     >
       <canvas
@@ -246,7 +246,7 @@ const GeometricBackground: React.FC = () => {
           left: 0,
           width: '100%',
           height: '100%',
-          mixBlendMode: 'soft-light',
+          mixBlendMode: 'multiply',
         }}
       />
     </Box>

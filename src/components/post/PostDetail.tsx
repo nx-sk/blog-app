@@ -14,7 +14,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark, oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { useColorMode } from '@chakra-ui/react'
 import { Post } from '../../types'
-import ZennStyleTableOfContents from './ZennStyleTableOfContents'
+// ZennStyleTableOfContents is rendered by PostPage (fixed right). Remove inline TOC here.
 
 interface PostDetailProps {
   post: Post
@@ -34,8 +34,8 @@ const PostDetail = ({ post }: PostDetailProps) => {
   const { colorMode } = useColorMode()
   const [tocItems, setTocItems] = useState<TOCItem[]>([])
   
-  const textColor = useColorModeValue('gray.700', 'gray.300')
-  const metaColor = useColorModeValue('gray.500', 'gray.400')
+  const textColor = useColorModeValue('gray.800', 'gray.200')
+  const metaColor = useColorModeValue('gray.600', 'gray.400')
   const codeStyle = colorMode === 'dark' ? oneDark : oneLight
 
   const formatDate = (dateString: string) => {
@@ -160,34 +160,45 @@ const PostDetail = ({ post }: PostDetailProps) => {
 
   return (
     <Box>
-      <ZennStyleTableOfContents items={tocItems} />
+      {/* 記事全体のグラス背景ラッパー */}
+      <Box className="crystal-glass crystal-glass--surface" p={{ base: 4, md: 6 }} borderRadius="lg">
+        {/* 固定幅の本文カラム（常に左寄せ） */}
+        <Box maxW="760px" mr="auto">
+          {/* ヘッダー部分（アイキャッチは表示しない） */}
+          <VStack spacing={3} align="stretch" mb={6}>
+            <Heading as="h1" size="2xl" lineHeight="1.2">
+              {post.title}
+            </Heading>
 
-      {/* ヘッダー部分（アイキャッチは表示しない） */}
-      <VStack spacing={3} align="stretch" mb={6}>
-        <Heading as="h1" size="2xl" lineHeight="1.2">
-          {post.title}
-        </Heading>
+          <HStack spacing={4} color={metaColor} fontSize="sm">
+            <Text>
+              {formatDate(post.published_at || post.created_at)}
+            </Text>
+            {post.categories && post.categories.length > 0 && (
+              <HStack spacing={2}>
+                {post.categories.map((category) => (
+                  <Tag key={category.id} size="sm" colorScheme="purple">
+                    {category.name}
+                  </Tag>
+                ))}
+              </HStack>
+            )}
+          </HStack>
+        </VStack>
 
-        <HStack spacing={4} color={metaColor} fontSize="sm">
-          <Text>
-            {formatDate(post.published_at || post.created_at)}
-          </Text>
-          {post.categories && post.categories.length > 0 && (
-            <HStack spacing={2}>
-              {post.categories.map((category) => (
-                <Tag key={category.id} size="sm" colorScheme="purple">
-                  {category.name}
-                </Tag>
-              ))}
-            </HStack>
-          )}
-        </HStack>
-      </VStack>
-
-      <Divider mb={6} />
-      <ReactMarkdown components={components}>
-        {post.content}
-      </ReactMarkdown>
+        <Divider mb={6} />
+        <ReactMarkdown
+          components={{
+            ...components,
+            img: ({ src, alt, ...props }: any) => (
+              <Box as="img" src={src} alt={alt} my={4} borderRadius="md" maxW="100%" display="block" {...props} />
+            ),
+          }}
+        >
+          {post.content}
+        </ReactMarkdown>
+        </Box>
+      </Box>
     </Box>
   )
 }

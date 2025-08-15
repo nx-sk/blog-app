@@ -21,7 +21,6 @@ import {
   FormLabel,
   Input,
   useDisclosure,
-  Grid,
   IconButton,
 } from '@chakra-ui/react'
 import { ChevronUpIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
@@ -51,7 +50,7 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
   const [selectedImageUrl, setSelectedImageUrl] = useState('')
   const [imageWidth, setImageWidth] = useState('')
   const [imageHeight, setImageHeight] = useState('')
-  const [splitDirection, setSplitDirection] = useState<'horizontal' | 'vertical'>('horizontal')
+  const [showSidePreview, setShowSidePreview] = useState(true)
   const [tocItems, setTocItems] = useState<TOCItem[]>([])
 
   // マークダウンから目次を生成
@@ -510,51 +509,26 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
 
           <Divider orientation="vertical" height="30px" />
 
-          <HStack spacing={1} ml={2}>
-            <Tooltip label="レイアウト切替" placement="top">
-              <HStack>
-                <IconButton
-                  aria-label="横分割"
-                  icon={splitDirection === 'horizontal' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                  size="sm"
-                  variant={splitDirection === 'horizontal' ? 'solid' : 'ghost'}
-                  colorScheme="blue"
-                  onClick={() => setSplitDirection('horizontal')}
-                />
-                <IconButton
-                  aria-label="縦分割"
-                  icon={splitDirection === 'vertical' ? <ChevronUpIcon /> : <ChevronDownIcon />}
-                  size="sm"
-                  variant={splitDirection === 'vertical' ? 'solid' : 'ghost'}
-                  colorScheme="blue"
-                  onClick={() => setSplitDirection('vertical')}
-                />
-              </HStack>
-            </Tooltip>
-          </HStack>
+          <Box flex={1} />
+          <Button size="sm" variant="outline" onClick={() => setShowSidePreview(v => !v)}>
+            {showSidePreview ? 'サイドプレビューを隠す' : 'サイドプレビューを表示'}
+          </Button>
         </HStack>
       </Box>
 
-      {/* エディタとプレビュー */}
-      <Grid
-        templateColumns={splitDirection === 'horizontal' ? '1fr 1fr' : '1fr'}
-        templateRows={splitDirection === 'vertical' ? '1fr 1fr' : '1fr'}
-        gap={4}
-        flex={1}
-        minH={0}
+      {/* メインエディタ（フル幅） */}
+      <Box
+        border="2px solid"
+        borderColor={colorMode === 'dark' ? 'gray.600' : 'gray.200'}
+        borderRadius="md"
+        overflow="hidden"
       >
-        <Box
-          border="2px solid"
-          borderColor={colorMode === 'dark' ? 'gray.600' : 'gray.200'}
-          borderRadius="md"
-          overflow="hidden"
-        >
-          <Textarea
-            ref={textareaRef}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            onPaste={handlePaste}
-            placeholder="# タイトル
+        <Textarea
+          ref={textareaRef}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onPaste={handlePaste}
+          placeholder="# タイトル
 
 記事の内容をここに書きます...
 
@@ -572,30 +546,41 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
 [リンク](https://example.com)
 
 画像はCtrl+V/Cmd+Vで貼り付けるか、画像ボタンから選択できます。"
-            height="100%"
-            resize="none"
-            fontSize="14px"
-            lineHeight="1.6"
-            fontFamily="'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace"
-            bg={colorMode === 'dark' ? 'gray.800' : 'white'}
-            color={colorMode === 'dark' ? 'white' : 'gray.800'}
-            p={4}
-            border="none"
-            _focus={{
-              outline: 'none',
-            }}
-          />
-        </Box>
+          height="100%"
+          resize="none"
+          fontSize="14px"
+          lineHeight="1.6"
+          fontFamily="'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace"
+          bg={colorMode === 'dark' ? 'gray.800' : 'white'}
+          color={colorMode === 'dark' ? 'white' : 'gray.800'}
+          p={4}
+          border="none"
+          _focus={{
+            outline: 'none',
+          }}
+        />
+      </Box>
 
+      {/* サイドの小さな全体プレビュー（固定配置） */}
+      {showSidePreview && (
         <Box
-          border="2px solid"
+          position="fixed"
+          right={{ base: 3, xl: 8 }}
+          top={{ base: '96px', md: '110px' }}
+          w={{ base: '260px', xl: '320px' }}
+          maxH="70vh"
+          overflowY="auto"
+          border="1px solid"
           borderColor={colorMode === 'dark' ? 'gray.600' : 'gray.200'}
           borderRadius="md"
-          overflow="hidden"
+          bg={colorMode === 'dark' ? 'gray.800' : 'white'}
+          boxShadow="0 8px 24px rgba(0,0,0,0.12)"
+          zIndex={5}
+          display={{ base: 'none', lg: 'block' }}
         >
           <PreviewContent />
         </Box>
-      </Grid>
+      )}
 
       {/* 画像リサイズモーダル */}
       <Modal isOpen={isOpen} onClose={onClose}>

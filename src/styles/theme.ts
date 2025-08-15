@@ -2,12 +2,12 @@ import { extendTheme } from '@chakra-ui/react'
 
 const theme = extendTheme({
   config: {
-    initialColorMode: 'dark',
+    initialColorMode: 'light',
     useSystemColorMode: false,
   },
   fonts: {
-    heading: `-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif`,
-    body: `-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif`,
+    heading: `Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`,
+    body: `Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`,
   },
   colors: {
     gray: {
@@ -58,16 +58,16 @@ const theme = extendTheme({
     },
   },
   styles: {
-    global: (props: any) => ({
+    global: (_props: any) => ({
       'html, body': {
-        bg: '#0a0a0a',
-        color: 'gray.100',
+        bg: 'white',
+        color: 'gray.900',
         fontSize: '16px',
-        lineHeight: '1.6',
+        lineHeight: '1.7',
       },
       '::selection': {
-        bg: 'rgba(168, 85, 247, 0.25)',
-        color: 'white',
+        bg: 'rgba(168, 85, 247, 0.18)',
+        color: 'black',
       },
     }),
   },
