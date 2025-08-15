@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Text, VStack } from '@chakra-ui/react'
+import { Box, Text, VStack, Icon } from '@chakra-ui/react'
 import { FiPlus, FiEdit } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -67,7 +67,7 @@ const NewPostCard: React.FC = () => {
           bg="whiteAlpha.200"
           backdropFilter="blur(10px)"
         >
-          <FiPlus size={32} />
+          <Icon as={FiPlus} boxSize={8} />
         </Box>
         
         <VStack spacing={2} textAlign="center">
@@ -90,7 +90,7 @@ const NewPostCard: React.FC = () => {
           py={1}
           borderRadius="full"
         >
-          <FiEdit size={12} />
+          <Icon as={FiEdit} boxSize={3} />
           <Text>OnPage Editing</Text>
         </Box>
       </VStack>

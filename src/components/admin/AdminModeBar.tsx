@@ -9,6 +9,7 @@ import {
   Tooltip,
   useToast,
   Divider,
+  Icon,
 } from '@chakra-ui/react'
 import {
   FiEdit3,
@@ -166,13 +167,13 @@ const AdminModeBar: React.FC = () => {
         {/* 左側: 管理モード表示とトグル */}
         <HStack spacing={4}>
           <HStack spacing={2}>
-            <FiSettings />
+            <Icon as={FiSettings} />
             <Text fontWeight="bold">管理モード</Text>
           </HStack>
           <Tooltip label={isAdminMode ? '管理モードを終了' : '管理モードを開始'}>
             <IconButton
               aria-label="Toggle admin mode"
-              icon={<FiPower />}
+              icon={<Icon as={FiPower} />}
               size="sm"
               colorScheme={isAdminMode ? 'green' : 'gray'}
               variant={isAdminMode ? 'solid' : 'outline'}
@@ -186,7 +187,7 @@ const AdminModeBar: React.FC = () => {
           <HStack spacing={4}>
             {!isPostPage && (
               <Button
-                leftIcon={<FiPlus />}
+                leftIcon={<Icon as={FiPlus} />}
                 size="sm"
                 colorScheme="green"
                 variant="solid"
@@ -202,7 +203,7 @@ const AdminModeBar: React.FC = () => {
                   <Tooltip label="編集モード">
                     <IconButton
                       aria-label="Edit mode"
-                      icon={<FiEdit3 />}
+                      icon={<Icon as={FiEdit3} />}
                       size="sm"
                       colorScheme={isEditingMode ? 'yellow' : 'gray'}
                       variant={isEditingMode ? 'solid' : 'outline'}
@@ -212,7 +213,7 @@ const AdminModeBar: React.FC = () => {
                   <Tooltip label="プレビューモード">
                     <IconButton
                       aria-label="Preview mode"
-                      icon={<FiEye />}
+                      icon={<Icon as={FiEye} />}
                       size="sm"
                       colorScheme={!isEditingMode ? 'blue' : 'gray'}
                       variant={!isEditingMode ? 'solid' : 'outline'}
@@ -231,7 +232,7 @@ const AdminModeBar: React.FC = () => {
 
                 <HStack spacing={2}>
                   <Button
-                    leftIcon={<FiSave />}
+                    leftIcon={<Icon as={FiSave} />}
                     size="sm"
                     colorScheme="green"
                     onClick={handleSave}
@@ -240,7 +241,7 @@ const AdminModeBar: React.FC = () => {
                     保存
                   </Button>
                   <Button
-                    leftIcon={<FiFileText />}
+                    leftIcon={<Icon as={FiFileText} />}
                     size="sm"
                     variant="outline"
                     onClick={handleDraftSave}
@@ -258,7 +259,7 @@ const AdminModeBar: React.FC = () => {
         <HStack spacing={4}>
           <Text fontSize="sm">{user?.email}</Text>
           <Button
-            leftIcon={<FiLogOut />}
+            leftIcon={<Icon as={FiLogOut} />}
             size="sm"
             variant="outline"
             onClick={handleLogout}

@@ -13,6 +13,7 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  Icon,
 } from '@chakra-ui/react'
 import {
   FiBold,
@@ -143,19 +144,19 @@ const InlineMarkdownEditor: React.FC<InlineMarkdownEditorProps> = ({
           <ButtonGroup size="sm" variant="ghost">
             <IconButton
               aria-label="Bold"
-              icon={<FiBold />}
+              icon={<Icon as={FiBold} />}
               onClick={() => insertText('**', '**')}
               title="太字"
             />
             <IconButton
               aria-label="Italic"
-              icon={<FiItalic />}
+              icon={<Icon as={FiItalic} />}
               onClick={() => insertText('*', '*')}
               title="斜体"
             />
             <IconButton
               aria-label="Code"
-              icon={<FiCode />}
+              icon={<Icon as={FiCode} />}
               onClick={() => insertText('`', '`')}
               title="コード"
             />
@@ -195,25 +196,25 @@ const InlineMarkdownEditor: React.FC<InlineMarkdownEditorProps> = ({
           <ButtonGroup size="sm" variant="ghost">
             <IconButton
               aria-label="Link"
-              icon={<FiLink />}
+              icon={<Icon as={FiLink} />}
               onClick={insertLink}
               title="リンク"
             />
             <IconButton
               aria-label="Image"
-              icon={<FiImage />}
+              icon={<Icon as={FiImage} />}
               onClick={insertImage}
               title="画像"
             />
             <IconButton
               aria-label="List"
-              icon={<FiList />}
+              icon={<Icon as={FiList} />}
               onClick={() => insertText('- ')}
               title="リスト"
             />
             <IconButton
               aria-label="Code Block"
-              icon={<FiHash />}
+              icon={<Icon as={FiHash} />}
               onClick={insertCodeBlock}
               title="コードブロック"
             />
@@ -223,7 +224,7 @@ const InlineMarkdownEditor: React.FC<InlineMarkdownEditorProps> = ({
 
           <ButtonGroup size="sm">
             <Button
-              leftIcon={isPreview ? <FiEdit /> : <FiEye />}
+              leftIcon={isPreview ? <Icon as={FiEdit} /> : <Icon as={FiEye} />}
               onClick={() => setIsPreview(!isPreview)}
               colorScheme="purple"
               variant="outline"
