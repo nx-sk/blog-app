@@ -32,6 +32,7 @@ import { RootState } from '../../store'
 import { fetchPostsStart, deletePostStart, setFilters } from '../../store/slices/postsSlice'
 import { AddIcon, EditIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons'
 import Loading from '../../components/common/Loading'
+import '../../styles/crystalGlass.css'
 
 const PostList = () => {
   const dispatch = useDispatch()
@@ -112,7 +113,7 @@ const PostList = () => {
       </HStack>
 
       {/* フィルター */}
-      <HStack spacing={4} mb={6}>
+      <HStack spacing={4} mb={6} className="crystal-glass crystal-glass--surface" p={3} borderRadius="md">
         <InputGroup maxW="300px">
           <InputLeftElement pointerEvents="none">
             <SearchIcon color="gray.300" />
@@ -141,15 +142,15 @@ const PostList = () => {
           <Text color="gray.500">記事がありません</Text>
         </Box>
       ) : (
-        <Box overflowX="auto">
+        <Box overflowX="auto" className="crystal-glass crystal-glass--elevated" p={2} borderRadius="md">
           <Table variant="simple">
             <Thead>
               <Tr>
-                <Th>タイトル</Th>
-                <Th>ステータス</Th>
-                <Th>作成日</Th>
-                <Th>更新日</Th>
-                <Th>操作</Th>
+                <Th color="brand.300">タイトル</Th>
+                <Th color="brand.300">ステータス</Th>
+                <Th color="brand.300">作成日</Th>
+                <Th color="brand.300">更新日</Th>
+                <Th color="brand.300">操作</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -210,7 +211,7 @@ const PostList = () => {
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent>
+          <AlertDialogContent className="crystal-glass crystal-glass--floating" bg="transparent">
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               記事を削除
             </AlertDialogHeader>

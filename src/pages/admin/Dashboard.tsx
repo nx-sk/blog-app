@@ -20,14 +20,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { fetchPostsStart } from '../../store/slices/postsSlice'
 import { AddIcon, EditIcon } from '@chakra-ui/icons'
+import '../../styles/crystalGlass.css'
 
 const Dashboard = () => {
   const dispatch = useDispatch()
   const { posts, loading } = useSelector((state: RootState) => state.posts)
   const { user } = useSelector((state: RootState) => state.auth)
 
-  const cardBg = useColorModeValue('white', 'gray.800')
-  const postItemBg = useColorModeValue('gray.50', 'gray.700')
+  const cardBg = 'transparent'
 
   useEffect(() => {
     dispatch(fetchPostsStart())
@@ -59,7 +59,7 @@ const Dashboard = () => {
 
         {/* 統計情報 */}
         <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={6}>
-          <Card bg={cardBg}>
+          <Card bg={cardBg} className="crystal-glass crystal-glass--elevated">
             <CardBody>
               <Stat>
                 <StatLabel>総記事数</StatLabel>
@@ -69,7 +69,7 @@ const Dashboard = () => {
             </CardBody>
           </Card>
 
-          <Card bg={cardBg}>
+          <Card bg={cardBg} className="crystal-glass crystal-glass--elevated">
             <CardBody>
               <Stat>
                 <StatLabel>公開記事</StatLabel>
@@ -79,7 +79,7 @@ const Dashboard = () => {
             </CardBody>
           </Card>
 
-          <Card bg={cardBg}>
+          <Card bg={cardBg} className="crystal-glass crystal-glass--elevated">
             <CardBody>
               <Stat>
                 <StatLabel>下書き</StatLabel>
@@ -91,7 +91,7 @@ const Dashboard = () => {
         </Grid>
 
         {/* 最近の記事 */}
-        <Card bg={cardBg}>
+        <Card bg={cardBg} className="crystal-glass crystal-glass--elevated">
           <CardBody>
             <VStack spacing={4} align="stretch">
               <HStack justify="space-between" align="center">
@@ -120,7 +120,7 @@ const Dashboard = () => {
                       justify="space-between"
                       p={3}
                       borderRadius="md"
-                      bg={postItemBg}
+                      className="crystal-glass crystal-glass--surface"
                     >
                       <VStack align="start" spacing={1}>
                         <Text fontWeight="bold" noOfLines={1}>

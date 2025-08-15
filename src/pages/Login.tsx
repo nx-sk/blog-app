@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store'
 import { loginStart } from '../store/slices/authSlice'
 import Loading from '../components/common/Loading'
+import '../styles/crystalGlass.css'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -39,7 +40,7 @@ const Login = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <Card bg={cardBg} maxW="400px" w="100%">
+      <Card bg="transparent" className="crystal-glass crystal-glass--elevated" maxW="400px" w="100%">
         <CardBody>
           <VStack spacing={6}>
             <VStack spacing={2}>

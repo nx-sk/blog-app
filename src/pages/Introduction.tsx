@@ -14,25 +14,13 @@ import {
 } from '@chakra-ui/react';
 
 const Introduction = () => {
-  const bgGradient = useColorModeValue(
-    'linear(to-br, #f5f7fa, #c3cfe2)',
-    'linear(to-br, gray.900, gray.700)'
-  );
-  
-  const cardBg = useColorModeValue(
-    'rgba(255, 255, 255, 0.95)',
-    'rgba(26, 32, 44, 0.95)'
-  );
-  
-  const borderColor = useColorModeValue(
-    'rgba(255, 255, 255, 0.2)',
-    'rgba(255, 255, 255, 0.1)'
-  );
+  // Dark + glass-styled constants
+  const cardBg = 'rgba(17, 24, 39, 0.6)';
+  const borderColor = 'rgba(168, 85, 247, 0.2)';
 
   return (
     <Box
       minH="100vh"
-      bgGradient={bgGradient}
       fontFamily="'Meiryo', 'メイリオ', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
       py={16}
       px={4}
@@ -54,7 +42,7 @@ const Introduction = () => {
             w="200px"
             h="200px"
             borderRadius="50%"
-            bgGradient="linear(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1))"
+            bgGradient="linear(135deg, rgba(168,85,247,0.08), rgba(107,33,168,0.08))"
             top="-100px"
             right="-100px"
             zIndex={-1}
@@ -65,7 +53,7 @@ const Introduction = () => {
             py={{ base: 12, md: 16 }}
             px={{ base: 6, md: 12 }}
             textAlign="center"
-            bgGradient="linear(135deg, rgba(33, 150, 243, 0.05) 0%, rgba(100, 181, 246, 0.05) 100%)"
+            bgGradient="linear(135deg, rgba(88,28,135,0.15) 0%, rgba(168,85,247,0.1) 100%)"
             position="relative"
             _after={{
               content: '""',
@@ -74,7 +62,7 @@ const Introduction = () => {
               left: '50%',
               w: '60px',
               h: '1px',
-              bgGradient: 'linear(to-r, transparent, brand.500, transparent)',
+              bgGradient: 'linear(to-r, transparent, var(--chakra-colors-brand-500), transparent)',
               transform: 'translateX(-50%)',
             }}
           >
@@ -82,7 +70,7 @@ const Introduction = () => {
               w={{ base: "120px", md: "140px" }}
               h={{ base: "120px", md: "140px" }}
               borderRadius="50%"
-              bgGradient="linear(135deg, #667eea 0%, #764ba2 100%)"
+              bgGradient="linear(135deg, var(--chakra-colors-brand-600) 0%, var(--chakra-colors-brand-400) 100%)"
               mx="auto"
               mb={8}
               display="flex"
@@ -92,7 +80,7 @@ const Introduction = () => {
               color="white"
               fontWeight="300"
               position="relative"
-              boxShadow="0 15px 35px rgba(102, 126, 234, 0.4)"
+              boxShadow="0 15px 35px rgba(168, 85, 247, 0.35)"
               _before={{
                 content: '""',
                 position: 'absolute',
@@ -101,37 +89,37 @@ const Introduction = () => {
                 right: '-3px',
                 bottom: '-3px',
                 borderRadius: '50%',
-                bgGradient: 'linear(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3))',
+                bgGradient: 'linear(135deg, rgba(168,85,247,0.25), rgba(107,33,168,0.25))',
                 zIndex: -1,
               }}
             >
-              山
+              SK
             </Box>
             
             <Heading
               as="h1"
               fontSize={{ base: "2.25rem", md: "2.75rem" }}
               fontWeight="300"
-              color="gray.800"
+              color="gray.100"
               mb={3}
               letterSpacing="-0.5px"
             >
-              山田 太郎
+              Shota Kushizaki
             </Heading>
             
             <Text
               fontSize="xl"
-              color="#667eea"
+              color="brand.400"
               fontWeight="400"
               mb={6}
               letterSpacing="0.5px"
             >
-              フルスタック開発者
+              フルスタックエンジニア
             </Text>
             
             <Text
               fontSize="lg"
-              color="gray.600"
+              color="gray.300"
               maxW="500px"
               mx="auto"
               fontWeight="300"
@@ -148,7 +136,7 @@ const Introduction = () => {
             <Box
               p={{ base: 8, md: 12 }}
               borderRight={{ lg: "1px solid" }}
-              borderRightColor={{ lg: "rgba(226, 232, 240, 0.5)" }}
+              borderRightColor={{ lg: "rgba(168, 85, 247, 0.2)" }}
             >
               <VStack align="stretch" spacing={10}>
                 {/* Profile Section */}
@@ -157,7 +145,7 @@ const Introduction = () => {
                     as="h2"
                     fontSize="sm"
                     fontWeight="600"
-                    color="gray.800"
+                    color="gray.100"
                     mb={5}
                     letterSpacing="0.5px"
                     textTransform="uppercase"
@@ -170,19 +158,19 @@ const Introduction = () => {
                       top: '50%',
                       w: '12px',
                       h: '1px',
-                      bg: '#667eea',
+                      bg: 'brand.500',
                       transform: 'translateY(-50%)',
                     }}
                   >
                     プロフィール
                   </Heading>
                   <VStack align="stretch" spacing={4}>
-                    <Text color="gray.600" fontWeight="300" lineHeight="1.8">
+                    <Text color="gray.300" fontWeight="300" lineHeight="1.8">
                       Web開発の世界に魅力を感じ、フロントエンドからバックエンドまで
                       幅広い技術領域で活動しています。特にユーザー体験の向上と
                       コードの品質向上に情熱を注いでいます。
                     </Text>
-                    <Text color="gray.600" fontWeight="300" lineHeight="1.8">
+                    <Text color="gray.300" fontWeight="300" lineHeight="1.8">
                       現在はSaaS企業でフルスタック開発者として働きながら、
                       個人プロジェクトにも積極的に取り組んでいます。
                     </Text>
@@ -195,7 +183,7 @@ const Introduction = () => {
                     as="h2"
                     fontSize="sm"
                     fontWeight="600"
-                    color="gray.800"
+                    color="gray.100"
                     mb={5}
                     letterSpacing="0.5px"
                     textTransform="uppercase"
@@ -208,7 +196,7 @@ const Introduction = () => {
                       top: '50%',
                       w: '12px',
                       h: '1px',
-                      bg: '#667eea',
+                      bg: 'brand.500',
                       transform: 'translateY(-50%)',
                     }}
                   >
@@ -223,10 +211,10 @@ const Introduction = () => {
                       { icon: '⚡', text: 'フルタイム対応可能' },
                     ].map((item, index) => (
                       <HStack key={index} fontSize="sm">
-                        <Text w="20px" color="#667eea" fontSize="14px">
+                        <Text w="20px" color="brand.400" fontSize="14px">
                           {item.icon}
                         </Text>
-                        <Text color="gray.600">{item.text}</Text>
+                        <Text color="gray.300">{item.text}</Text>
                       </HStack>
                     ))}
                   </VStack>
@@ -238,7 +226,7 @@ const Introduction = () => {
                     as="h2"
                     fontSize="sm"
                     fontWeight="600"
-                    color="gray.800"
+                    color="gray.100"
                     mb={5}
                     letterSpacing="0.5px"
                     textTransform="uppercase"
@@ -251,13 +239,13 @@ const Introduction = () => {
                       top: '50%',
                       w: '12px',
                       h: '1px',
-                      bg: '#667eea',
+                      bg: 'brand.500',
                       transform: 'translateY(-50%)',
                     }}
                   >
                     技術スキル
                   </Heading>
-                  <Text color="gray.600" fontWeight="300" lineHeight="1.8" mb={4}>
+                  <Text color="gray.300" fontWeight="300" lineHeight="1.8" mb={4}>
                     継続的に学習・習得している技術領域です。
                   </Text>
                   <Flex wrap="wrap" gap={2}>
@@ -267,14 +255,14 @@ const Introduction = () => {
                     ].map((skill) => (
                       <Tag
                         key={skill}
-                        bg="rgba(102, 126, 234, 0.1)"
-                        color="#667eea"
+                        bg="rgba(168, 85, 247, 0.12)"
+                        color="brand.300"
                         borderRadius="20px"
                         fontSize="sm"
                         fontWeight="400"
-                        border="1px solid rgba(102, 126, 234, 0.2)"
+                        border="1px solid rgba(168, 85, 247, 0.2)"
                         _hover={{
-                          bg: 'rgba(102, 126, 234, 0.15)',
+                          bg: 'rgba(168, 85, 247, 0.18)',
                           transform: 'translateY(-1px)',
                         }}
                         transition="all 0.3s ease"
@@ -296,7 +284,7 @@ const Introduction = () => {
                     as="h2"
                     fontSize="sm"
                     fontWeight="600"
-                    color="gray.800"
+                    color="gray.100"
                     mb={5}
                     letterSpacing="0.5px"
                     textTransform="uppercase"
@@ -309,7 +297,7 @@ const Introduction = () => {
                       top: '50%',
                       w: '12px',
                       h: '1px',
-                      bg: '#667eea',
+                      bg: 'brand.500',
                       transform: 'translateY(-50%)',
                     }}
                   >
@@ -336,11 +324,11 @@ const Introduction = () => {
                       <Box
                         key={index}
                         pb={index !== 2 ? 5 : 0}
-                        borderBottom={index !== 2 ? "1px solid rgba(226, 232, 240, 0.3)" : "none"}
+                        borderBottom={index !== 2 ? "1px solid rgba(168, 85, 247, 0.2)" : "none"}
                       >
                         <Text
                           fontSize="sm"
-                          color="#667eea"
+                          color="brand.400"
                           fontWeight="500"
                           mb={1.5}
                           letterSpacing="0.5px"
@@ -350,14 +338,14 @@ const Introduction = () => {
                         <Text
                           fontSize="md"
                           fontWeight="500"
-                          color="gray.800"
+                          color="gray.100"
                           mb={2}
                         >
                           {exp.title}
                         </Text>
                         <Text
                           fontSize="sm"
-                          color="gray.600"
+                          color="gray.300"
                           fontWeight="300"
                           lineHeight="1.7"
                         >
@@ -393,7 +381,7 @@ const Introduction = () => {
                   >
                     価値観
                   </Heading>
-                  <Text color="gray.600" fontWeight="300" lineHeight="1.8" mb={4}>
+                  <Text color="gray.300" fontWeight="300" lineHeight="1.8" mb={4}>
                     開発において大切にしている考え方です。
                   </Text>
                   <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
@@ -407,17 +395,17 @@ const Introduction = () => {
                         key={index}
                         textAlign="center"
                         p={5}
-                        bg="rgba(102, 126, 234, 0.05)"
+                        bg="rgba(168, 85, 247, 0.08)"
                         borderRadius="12px"
-                        border="1px solid rgba(102, 126, 234, 0.1)"
+                        border="1px solid rgba(168, 85, 247, 0.15)"
                         _hover={{
                           transform: 'translateY(-2px)',
-                          boxShadow: '0 8px 20px rgba(102, 126, 234, 0.15)',
+                          boxShadow: '0 8px 20px rgba(168, 85, 247, 0.18)',
                         }}
                         transition="all 0.3s ease"
                       >
                         <Text fontSize="2xl" mb={2}>{value.icon}</Text>
-                        <Text fontSize="sm" fontWeight="500" color="gray.800">
+                        <Text fontSize="sm" fontWeight="500" color="gray.100">
                           {value.title}
                         </Text>
                       </Box>
@@ -433,14 +421,14 @@ const Introduction = () => {
             py={10}
             px={{ base: 6, md: 12 }}
             textAlign="center"
-            bg="rgba(102, 126, 234, 0.03)"
-            borderTop="1px solid rgba(226, 232, 240, 0.5)"
-            borderBottom="1px solid rgba(226, 232, 240, 0.5)"
+            bg="rgba(88, 28, 135, 0.12)"
+            borderTop="1px solid rgba(168, 85, 247, 0.2)"
+            borderBottom="1px solid rgba(168, 85, 247, 0.2)"
           >
             <Text
               fontSize="xl"
               fontStyle="italic"
-              color="gray.600"
+              color="gray.300"
               fontWeight="300"
               lineHeight="1.8"
               maxW="600px"
@@ -449,7 +437,7 @@ const Introduction = () => {
               _before={{
                 content: '"',
                 fontSize: '2rem',
-                color: '#667eea',
+                color: 'var(--chakra-colors-brand-400)',
                 fontFamily: 'serif',
                 position: 'absolute',
                 top: '-10px',
@@ -458,7 +446,7 @@ const Introduction = () => {
               _after={{
                 content: '"',
                 fontSize: '2rem',
-                color: '#667eea',
+                color: 'var(--chakra-colors-brand-400)',
                 fontFamily: 'serif',
                 position: 'absolute',
                 top: '-10px',
@@ -474,22 +462,22 @@ const Introduction = () => {
           <Box
             py={10}
             px={{ base: 6, md: 12 }}
-            bg="rgba(102, 126, 234, 0.05)"
+            bg="rgba(88, 28, 135, 0.1)"
             textAlign="center"
-            borderTop="1px solid rgba(226, 232, 240, 0.5)"
+            borderTop="1px solid rgba(168, 85, 247, 0.2)"
           >
             <Heading
               as="h2"
               fontSize="2xl"
               fontWeight="300"
-              color="gray.800"
+              color="gray.100"
               mb={4}
               letterSpacing="-0.25px"
             >
               お気軽にご連絡ください
             </Heading>
             <Text
-              color="gray.600"
+              color="gray.300"
               mb={8}
               fontWeight="300"
               maxW="400px"
@@ -519,16 +507,16 @@ const Introduction = () => {
                   gap={2}
                   px={6}
                   py={3}
-                  bg="rgba(102, 126, 234, 0.1)"
-                  color="#667eea"
+                  bg="rgba(168, 85, 247, 0.12)"
+                  color="brand.300"
                   borderRadius="24px"
                   fontSize="sm"
                   fontWeight="400"
-                  border="1px solid rgba(102, 126, 234, 0.2)"
+                  border="1px solid rgba(168, 85, 247, 0.2)"
                   _hover={{
-                    bg: 'rgba(102, 126, 234, 0.15)',
+                    bg: 'rgba(168, 85, 247, 0.18)',
                     transform: 'translateY(-1px)',
-                    boxShadow: '0 4px 12px rgba(102, 126, 234, 0.2)',
+                    boxShadow: '0 4px 12px rgba(168, 85, 247, 0.22)',
                     textDecoration: 'none',
                   }}
                   transition="all 0.3s ease"

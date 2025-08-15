@@ -58,7 +58,7 @@ const postsSlice = createSlice({
       state.loading = false
       state.error = action.payload
     },
-    updatePostStart: (state, action: PayloadAction<{ id: number; updates: Partial<Post> }>) => {
+    updatePostStart: (state, action: PayloadAction<{ id: string | number; post: Partial<Post> }>) => {
       state.loading = true
       state.error = null
     },

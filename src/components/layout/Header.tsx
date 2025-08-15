@@ -2,8 +2,6 @@ import React from 'react'
 import {
   Box,
   Text,
-  IconButton,
-  useColorMode,
   Menu,
   MenuButton,
   MenuList,
@@ -11,7 +9,6 @@ import {
   Avatar,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { RootState } from '../../store'
@@ -20,7 +17,6 @@ import Container from './Container'
 import '../../styles/crystalGlass.css'
 
 const Header = () => {
-  const { colorMode, toggleColorMode } = useColorMode()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
@@ -54,14 +50,13 @@ const Header = () => {
       left={0}
       right={0}
       zIndex={1000}
-      py={6}
+      className="glass-header"
+      py={4}
     >
       <Container>
         <Box 
-          className="crystal-glass crystal-glass--elevated"
           px={{ base: 4, md: 6 }}
-          py={6}
-          borderRadius="20px"
+          py={2}
         >
           <Box
             display="flex"
@@ -134,21 +129,6 @@ const Header = () => {
 
               {/* Control Buttons */}
               <Box display="flex" alignItems="center" gap={2}>
-                <IconButton
-                  aria-label="Toggle color mode"
-                  icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-                  onClick={toggleColorMode}
-                  size="sm"
-                  borderRadius="8px"
-                  className="crystal-button crystal-button--ghost"
-                  bg="transparent"
-                  minW="auto"
-                  h="auto"
-                  p={2}
-                  _hover={{
-                    bg: "var(--crystal-white-5)",
-                  }}
-                />
 
                 {isAuthenticated && user ? (
                   <Menu>

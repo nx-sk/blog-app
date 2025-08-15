@@ -1,14 +1,20 @@
 import React from 'react'
 import { Box, Text } from '@chakra-ui/react'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store'
 import { Post } from '../../types'
 import PostCard from './PostCard'
+import FeaturePostCard from './FeaturePostCard'
+import NewPostCard from './NewPostCard'
 
 interface PostListProps {
   posts: Post[]
 }
 
 const PostList = ({ posts }: PostListProps) => {
-  if (posts.length === 0) {
+  const { isAdminMode } = useSelector((state: RootState) => state.adminMode)
+
+  if (posts.length === 0 && !isAdminMode) {
     return (
       <Box textAlign="center" py={10}>
         <Text fontSize="lg" color="gray.500">
@@ -20,34 +26,35 @@ const PostList = ({ posts }: PostListProps) => {
 
   return (
     <Box
-      display="flex"
-      flexWrap="wrap"
-      gap={{ base: '24px', md: '32px' }}
-      sx={{
-        // 記事数に関わらず左寄せ配置を強制
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        
-        '& > *': {
-          // Container幅(1280px) - パディング(32px*2) - ガップを考慮した正確な計算
-          width: { 
-            base: '100%', 
-            md: 'calc((100% - 32px) / 2)', 
-            lg: 'calc((100% - 64px) / 3)' 
-          },
-          // 5:3の比率で高さを計算
-          height: {
-            base: 'calc((100vw - 32px) * 3 / 5)', // モバイル
-            md: 'calc(((100vw - 96px) / 2) * 3 / 5)', // タブレット  
-            lg: 'calc(((1280px - 128px) / 3) * 3 / 5)', // デスクトップ
-          },
-          flexShrink: 0,
-        }
-      }}
+      display="grid"
+      gridTemplateColumns={{ base: '1fr', md: '1fr 1fr', lg: 'repeat(3, 1fr)' }}
+      gap={{ base: 4, md: 6 }}
     >
-      {posts.map((post) => (
+      {/* 管理モード時は新規記事作成カードを最初に表示 */}
+      {isAdminMode && <NewPostCard />}
+      
+      {posts.length > 0 && (
+        <Box gridColumn={{ base: 'auto', md: '1 / -1', lg: '1 / span 2' }}>
+          <FeaturePostCard post={posts[0]} />
+        </Box>
+      )}
+
+      {posts.slice(1).map((post) => (
         <PostCard key={post.id} post={post} />
       ))}
+
+      {/* 記事がない場合のメッセージ（管理モード時） */}
+      {posts.length === 0 && isAdminMode && (
+        <Box
+          gridColumn="1 / -1"
+          textAlign="center"
+          py={10}
+          color="gray.500"
+          fontSize="sm"
+        >
+          まだ記事がありません。新規記事作成カードから記事を作成してみましょう。
+        </Box>
+      )}
     </Box>
   )
 }

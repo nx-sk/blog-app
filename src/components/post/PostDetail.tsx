@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   Box,
   Heading,
@@ -15,17 +15,21 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark, oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { useColorMode } from '@chakra-ui/react'
 import { Post } from '../../types'
-import TableOfContents from './TableOfContents'
+import ZennStyleTableOfContents from './ZennStyleTableOfContents'
 
 interface PostDetailProps {
   post: Post
 }
 
-interface TOCItem {
-  id: string
-  text: string
-  level: number
-}
+interface TOCItem { id: string; text: string; level: number }
+
+// シンプルなスラッグ生成（見出しテキスト -> id）
+const slugify = (text: string) =>
+  text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
 
 const PostDetail = ({ post }: PostDetailProps) => {
   const { colorMode } = useColorMode()
@@ -43,50 +47,61 @@ const PostDetail = ({ post }: PostDetailProps) => {
     })
   }
 
-  // マークダウンから見出しを抽出してTOCを生成
+  // マークダウンから見出しを抽出してTOCを生成（slug一致）
   useEffect(() => {
     const headings = post.content.match(/^#{1,6}\s+.+$/gm)
     if (headings) {
-      const items: TOCItem[] = headings.map((heading, index) => {
+      const items: TOCItem[] = headings.map((heading) => {
         const level = heading.match(/^#+/)?.[0].length || 1
         const text = heading.replace(/^#+\s+/, '')
-        const id = `heading-${index}`
+        const id = slugify(text)
         return { id, text, level }
       })
       setTocItems(items)
+    } else {
+      setTocItems([])
     }
   }, [post.content])
 
   // 見出しにIDを追加するカスタムレンダラー
+  const getText = (children: any): string => {
+    if (typeof children === 'string') return children
+    if (Array.isArray(children)) return children.map(getText).join('')
+    if (children && typeof children === 'object' && 'props' in children) {
+      return getText((children as any).props?.children)
+    }
+    return ''
+  }
+
   const components = {
     h1: ({ children, ...props }: any) => {
-      const index = tocItems.findIndex(item => item.text === children[0] && item.level === 1)
-      const id = index !== -1 ? tocItems[index].id : undefined
+      const text = getText(children)
+      const id = slugify(text)
       return <Heading as="h1" size="xl" mt={8} mb={4} id={id} {...props}>{children}</Heading>
     },
     h2: ({ children, ...props }: any) => {
-      const index = tocItems.findIndex(item => item.text === children[0] && item.level === 2)
-      const id = index !== -1 ? tocItems[index].id : undefined
+      const text = getText(children)
+      const id = slugify(text)
       return <Heading as="h2" size="lg" mt={6} mb={3} id={id} {...props}>{children}</Heading>
     },
     h3: ({ children, ...props }: any) => {
-      const index = tocItems.findIndex(item => item.text === children[0] && item.level === 3)
-      const id = index !== -1 ? tocItems[index].id : undefined
+      const text = getText(children)
+      const id = slugify(text)
       return <Heading as="h3" size="md" mt={4} mb={2} id={id} {...props}>{children}</Heading>
     },
     h4: ({ children, ...props }: any) => {
-      const index = tocItems.findIndex(item => item.text === children[0] && item.level === 4)
-      const id = index !== -1 ? tocItems[index].id : undefined
+      const text = getText(children)
+      const id = slugify(text)
       return <Heading as="h4" size="sm" mt={3} mb={2} id={id} {...props}>{children}</Heading>
     },
     h5: ({ children, ...props }: any) => {
-      const index = tocItems.findIndex(item => item.text === children[0] && item.level === 5)
-      const id = index !== -1 ? tocItems[index].id : undefined
+      const text = getText(children)
+      const id = slugify(text)
       return <Heading as="h5" size="sm" mt={2} mb={1} id={id} {...props}>{children}</Heading>
     },
     h6: ({ children, ...props }: any) => {
-      const index = tocItems.findIndex(item => item.text === children[0] && item.level === 6)
-      const id = index !== -1 ? tocItems[index].id : undefined
+      const text = getText(children)
+      const id = slugify(text)
       return <Heading as="h6" size="xs" mt={2} mb={1} id={id} {...props}>{children}</Heading>
     },
     p: ({ children, ...props }: any) => (
@@ -146,12 +161,14 @@ const PostDetail = ({ post }: PostDetailProps) => {
 
   return (
     <Box>
-      {/* ヘッダー部分 */}
-      <VStack spacing={4} align="stretch" mb={8}>
+      <ZennStyleTableOfContents items={tocItems} />
+
+      {/* ヘッダー部分（アイキャッチは表示しない） */}
+      <VStack spacing={3} align="stretch" mb={6}>
         <Heading as="h1" size="2xl" lineHeight="1.2">
           {post.title}
         </Heading>
-        
+
         <HStack spacing={4} color={metaColor} fontSize="sm">
           <Text>
             {formatDate(post.published_at || post.created_at)}
@@ -159,24 +176,13 @@ const PostDetail = ({ post }: PostDetailProps) => {
           {post.categories && post.categories.length > 0 && (
             <HStack spacing={2}>
               {post.categories.map((category) => (
-                <Tag key={category.id} size="sm" colorScheme="blue">
+                <Tag key={category.id} size="sm" colorScheme="purple">
                   {category.name}
                 </Tag>
               ))}
             </HStack>
           )}
         </HStack>
-
-        {post.featured_image && (
-          <Image
-            src={post.featured_image}
-            alt={post.title}
-            borderRadius="md"
-            maxH="400px"
-            objectFit="cover"
-            w="100%"
-          />
-        )}
       </VStack>
 
       <Divider mb={6} />

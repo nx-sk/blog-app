@@ -22,7 +22,7 @@ const PostCard = ({ post }: PostCardProps) => {
   const dateColor = useColorModeValue('gray.500', 'gray.400')
   const titleColor = useColorModeValue('gray.900', 'white')
   const tagColor = useColorModeValue('gray.600', 'gray.400')
-  const linkColor = useColorModeValue('blue.600', 'blue.400')
+  const linkColor = useColorModeValue('brand.600', 'brand.400')
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('ja-JP', {
@@ -34,55 +34,25 @@ const PostCard = ({ post }: PostCardProps) => {
 
   return (
     <Box 
-      as={RouterLink}
-      to={`/posts/${post.slug || post.id}`}
-      className="crystal-card"
-      display="block"
-      textDecoration="none"
-      _hover={{ textDecoration: 'none' }}
+      className="glass-card"
+      borderRadius="xl"
+      overflow="hidden"
       transition="all 0.3s cubic-bezier(0.23, 1, 0.32, 1)"
-      sx={{
-        // 親から高さと幅を継承（PostListで計算済み）
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-      }}
+      display="flex"
+      flexDirection="column"
+      h="100%"
     >
-      {post.featured_image && (
-        <Box 
-          position="relative" 
-          overflow="hidden" 
-          borderRadius="16px 16px 0 0"
-          margin="-1px -1px 0 -1px"
-          borderBottom="1px solid"
-          borderColor="var(--crystal-edge)"
-          flex="0 0 55%" // 画像が55%の高さを占める
-        >
-          <Image
-            src={post.featured_image}
-            alt={post.title}
-            h="100%"
-            w="100%"
-            objectFit="cover"
-            transition="all 0.6s cubic-bezier(0.23, 1, 0.32, 1)"
-            _hover={{
-              transform: 'scale(1.02)',
-            }}
-          />
-        </Box>
-      )}
+      {/* 通常カードではアイキャッチは表示しない（Featureに委譲） */}
       
       <Box 
         className="crystal-card__body"
-        flex="1" // 残りの高さを占める
+        flex="1"
         sx={{
           padding: '16px 20px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          minHeight: 0, // flexで正しく縮小されるように
+          minHeight: 0,
         }}
       >
         <Stack spacing={3} flex="1">
@@ -149,6 +119,8 @@ const PostCard = ({ post }: PostCardProps) => {
           </Text>
 
           <Text
+            as={RouterLink}
+            to={`/posts/${post.slug || post.id}`}
             fontSize="2xs"
             fontWeight="600"
             color={linkColor}
@@ -156,8 +128,10 @@ const PostCard = ({ post }: PostCardProps) => {
             alignItems="center"
             gap={1}
             transition="all 0.3s ease"
+            textDecoration="none"
             _hover={{
               transform: 'translateX(2px)',
+              textDecoration: 'none',
             }}
           >
             続きを読む

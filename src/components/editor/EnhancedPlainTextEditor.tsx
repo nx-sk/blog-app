@@ -78,16 +78,22 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
   // 画像アップロード処理
   const uploadImage = async (file: File): Promise<string | null> => {
     try {
-      console.log('画像アップロード開始:', file.name, 'サイズ:', file.size)
+      if (process.env.NODE_ENV === 'development') {
+        console.log('画像アップロード開始:', file.name, 'サイズ:', file.size)
+      }
       
       const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`
       const filePath = postId ? `posts/${postId}/${fileName}` : `temp/${fileName}`
 
-      console.log('アップロードパス:', filePath)
+      if (process.env.NODE_ENV === 'development') {
+        console.log('アップロードパス:', filePath)
+      }
 
       // まずStorageバケットの存在確認
       const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets()
-      console.log('利用可能なバケット:', buckets)
+      if (process.env.NODE_ENV === 'development') {
+        console.log('利用可能なバケット:', buckets)
+      }
       
       if (bucketsError) {
         console.error('バケット一覧取得エラー:', bucketsError)
@@ -95,12 +101,14 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
       }
 
       // ファイルサイズとタイプの確認
-      console.log('ファイル詳細:', {
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        maxSize: 50 * 1024 * 1024 // 50MB
-      })
+      if (process.env.NODE_ENV === 'development') {
+        console.log('ファイル詳細:', {
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          maxSize: 50 * 1024 * 1024 // 50MB
+        })
+      }
 
       if (file.size > 50 * 1024 * 1024) {
         throw new Error('ファイルサイズが大きすぎます（50MB以下にしてください）')
@@ -123,13 +131,17 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
         throw error
       }
 
-      console.log('アップロード成功:', data)
+      if (process.env.NODE_ENV === 'development') {
+        console.log('アップロード成功:', data)
+      }
 
       const { data: { publicUrl } } = supabase.storage
         .from('media')
         .getPublicUrl(data.path)
 
-      console.log('公開URL:', publicUrl)
+      if (process.env.NODE_ENV === 'development') {
+        console.log('公開URL:', publicUrl)
+      }
 
       return publicUrl
     } catch (error) {

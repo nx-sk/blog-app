@@ -12,8 +12,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #fafafa;
-  color: #1a1a1a;
+  /* Chakra theme controls background and text color (dark mode) */
+  background: transparent;
+  color: inherit;
   line-height: 1.6;
 }
 

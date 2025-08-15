@@ -24,6 +24,7 @@ import {
 } from '../../store/slices/postsSlice'
 import EnhancedPlainTextEditor from '../../components/editor/EnhancedPlainTextEditor'
 import Loading from '../../components/common/Loading'
+import '../../styles/crystalGlass.css'
 
 const PostEditor = () => {
   const { id } = useParams<{ id: string }>()
@@ -122,7 +123,7 @@ const PostEditor = () => {
     if (isEdit && currentPost) {
       dispatch(updatePostStart({
         id: currentPost.id,
-        updates: postData,
+        post: postData,
       }))
     } else {
       dispatch(createPostStart(postData))
@@ -159,7 +160,7 @@ const PostEditor = () => {
     if (isEdit && currentPost) {
       dispatch(updatePostStart({
         id: currentPost.id,
-        updates: draftData,
+        post: draftData,
       }))
     } else {
       dispatch(createPostStart(draftData))
@@ -222,7 +223,7 @@ const PostEditor = () => {
           </HStack>
         </HStack>
 
-        <HStack spacing={4} align="start">
+        <HStack spacing={4} align="start" className="crystal-glass crystal-glass--elevated" p={4} borderRadius="md">
           <FormControl isRequired flex={2}>
             <FormLabel>タイトル</FormLabel>
             <Input
@@ -242,7 +243,7 @@ const PostEditor = () => {
           </FormControl>
         </HStack>
 
-        <HStack spacing={4} align="start">
+        <HStack spacing={4} align="start" className="crystal-glass crystal-glass--elevated" p={4} borderRadius="md">
           <FormControl flex={2}>
             <FormLabel>概要</FormLabel>
             <Textarea
@@ -265,14 +266,16 @@ const PostEditor = () => {
 
         <Divider />
 
-        <FormControl isRequired>
-          <FormLabel>本文</FormLabel>
-          <EnhancedPlainTextEditor
-            value={formData.content}
-            onChange={(value) => handleChange('content', value)}
-            postId={currentPost?.id?.toString()}
-          />
-        </FormControl>
+        <Box className="crystal-glass crystal-glass--elevated" p={4} borderRadius="md">
+          <FormControl isRequired>
+            <FormLabel>本文（Markdown）</FormLabel>
+            <EnhancedPlainTextEditor
+              value={formData.content}
+              onChange={(value) => handleChange('content', value)}
+              postId={currentPost?.id?.toString()}
+            />
+          </FormControl>
+        </Box>
       </VStack>
     </Box>
   )

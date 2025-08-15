@@ -21,12 +21,12 @@ const ZennStyleTableOfContents = ({ items }: ZennStyleTableOfContentsProps) => {
   const { colorMode } = useColorMode()
   const [activeId, setActiveId] = useState<string>('')
   
-  const bg = useColorModeValue('white', 'gray.800')
-  const borderColor = useColorModeValue('gray.200', 'gray.600')
+  const bg = useColorModeValue('rgba(255,255,255,0.6)', 'rgba(17,24,39,0.6)')
+  const borderColor = useColorModeValue('rgba(168,85,247,0.25)', 'rgba(168,85,247,0.25)')
   const linkColor = useColorModeValue('gray.600', 'gray.300')
-  const linkHoverColor = useColorModeValue('blue.600', 'blue.300')
-  const activeLinkColor = useColorModeValue('blue.600', 'blue.300')
-  const activeBorderColor = useColorModeValue('blue.500', 'blue.400')
+  const linkHoverColor = useColorModeValue('brand.600', 'brand.300')
+  const activeLinkColor = useColorModeValue('brand.700', 'brand.300')
+  const activeBorderColor = useColorModeValue('brand.500', 'brand.400')
 
   // スクロール位置に基づいてアクティブな見出しを更新
   useEffect(() => {
@@ -77,11 +77,12 @@ const ZennStyleTableOfContents = ({ items }: ZennStyleTableOfContentsProps) => {
       maxH="70vh"
       overflowY="auto"
       bg={bg}
+      backdropFilter="blur(12px) saturate(160%)"
       border="1px solid"
       borderColor={borderColor}
-      borderRadius="lg"
+      borderRadius="16px"
       p={4}
-      boxShadow="lg"
+      boxShadow="0 8px 24px rgba(0,0,0,0.2)"
       zIndex={10}
       display={{ base: 'none', xl: 'block' }}
       css={{
@@ -100,7 +101,7 @@ const ZennStyleTableOfContents = ({ items }: ZennStyleTableOfContentsProps) => {
       <Text 
         fontSize="xs" 
         fontWeight="bold" 
-        color={linkColor}
+        color={useColorModeValue('brand.700','brand.300')}
         mb={3}
         textTransform="uppercase"
         letterSpacing="wider"
@@ -146,10 +147,7 @@ const ZennStyleTableOfContents = ({ items }: ZennStyleTableOfContentsProps) => {
               transition="all 0.2s"
               noOfLines={2}
               lineHeight="1.4"
-              bg={activeId === item.id ? 
-                (colorMode === 'dark' ? 'blue.900' : 'blue.50') : 
-                'transparent'
-              }
+              bg={activeId === item.id ? (colorMode === 'dark' ? 'rgba(88,28,135,0.35)' : 'rgba(233,213,255,0.8)') : 'transparent'}
             >
               {item.text}
             </Text>
