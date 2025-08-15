@@ -21,13 +21,13 @@ const ZennStyleTableOfContents = ({ items }: ZennStyleTableOfContentsProps) => {
   const { colorMode } = useColorMode()
   const [activeId, setActiveId] = useState<string>('')
   
-  const bg = useColorModeValue('rgba(255,255,255,0.6)', 'rgba(17,24,39,0.6)')
-  const borderColor = useColorModeValue('rgba(168,85,247,0.25)', 'rgba(168,85,247,0.25)')
-  const linkColor = useColorModeValue('gray.600', 'gray.300')
+  const bg = useColorModeValue('rgba(255,255,255,0.65)', 'rgba(17,24,39,0.72)')
+  const borderColor = useColorModeValue('rgba(168,85,247,0.28)', 'rgba(168,85,247,0.35)')
+  const linkColor = useColorModeValue('gray.600', 'gray.200')
   const linkHoverColor = useColorModeValue('brand.600', 'brand.300')
-  const activeLinkColor = useColorModeValue('brand.700', 'brand.300')
+  const activeLinkColor = useColorModeValue('brand.700', 'brand.200')
   const activeBorderColor = useColorModeValue('brand.500', 'brand.400')
-  const headerColor = useColorModeValue('brand.700','brand.300')
+  const headerColor = useColorModeValue('brand.700','brand.200')
 
   // スクロール位置に基づいてアクティブな見出しを更新
   useEffect(() => {

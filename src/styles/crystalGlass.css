@@ -218,6 +218,27 @@
   text-decoration: none;
   
   transition: all var(--crystal-transition-fast);
+  overflow: hidden; /* clip shine */
+}
+
+/* Shine effect (cursor-follow) */
+.crystal-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    120px 120px at var(--mx, 50%) var(--my, 50%),
+    rgba(168, 85, 247, 0.30),
+    rgba(168, 85, 247, 0.0) 60%
+  );
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  pointer-events: none;
+}
+
+.crystal-button:hover::after {
+  opacity: 1;
 }
 
 /* Button Hover - Subtle Enhancement */
@@ -252,14 +273,14 @@
 }
 
 .crystal-button--ghost {
-  background: transparent;
-  border-color: transparent;
-  box-shadow: none;
+  background: var(--crystal-white-5);
+  border-color: var(--crystal-edge);
+  box-shadow: var(--crystal-shadow-subtle), inset 0 1px 0 var(--crystal-edge-light);
 }
 
 .crystal-button--ghost:hover {
-  background: var(--crystal-white-5);
-  border-color: var(--crystal-edge);
+  background: var(--crystal-white-15);
+  border-color: var(--crystal-edge-light);
 }
 
 /* Crystal Navigation */
@@ -429,6 +450,16 @@
   .crystal-button {
     color: rgba(255, 255, 255, 0.9);
     background: rgba(255, 255, 255, 0.03);
+  }
+
+  .crystal-button--ghost {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--crystal-edge);
+  }
+
+  .crystal-button--ghost:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--crystal-edge-light);
   }
   
   .crystal-nav__item {

@@ -17,7 +17,7 @@ const PostList = ({ posts }: PostListProps) => {
   if (posts.length === 0 && !isAdminMode) {
     return (
       <Box textAlign="center" py={10}>
-        <Text fontSize="lg" color="gray.500">
+        <Text fontSize="lg" color="gray.400">
           記事がありません
         </Text>
       </Box>
@@ -49,7 +49,7 @@ const PostList = ({ posts }: PostListProps) => {
           gridColumn="1 / -1"
           textAlign="center"
           py={10}
-          color="gray.500"
+          color="gray.400"
           fontSize="sm"
         >
           まだ記事がありません。新規記事作成カードから記事を作成してみましょう。

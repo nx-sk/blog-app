@@ -18,9 +18,9 @@ interface PostCardProps {
 
 const PostCard = ({ post }: PostCardProps) => {
   const textColor = useColorModeValue('gray.600', 'gray.300')
-  const dateColor = useColorModeValue('gray.500', 'gray.400')
+  const dateColor = useColorModeValue('gray.500', 'gray.300')
   const titleColor = useColorModeValue('gray.900', 'white')
-  const tagColor = useColorModeValue('gray.600', 'gray.400')
+  const tagColor = useColorModeValue('gray.600', 'gray.300')
   const linkColor = useColorModeValue('brand.600', 'brand.400')
 
   const formatDate = (dateString: string) => {

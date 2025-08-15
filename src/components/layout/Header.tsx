@@ -23,9 +23,9 @@ const Header = () => {
   const { user, isAuthenticated } = useSelector((state: RootState) => state.auth)
   
   // Move all hooks to the top level
-  const menuBgColor = useColorModeValue('rgba(255, 255, 255, 0.8)', 'rgba(0, 0, 0, 0.8)')
+  const menuBgColor = useColorModeValue('rgba(255, 255, 255, 0.85)', 'rgba(10, 12, 16, 0.85)')
   const textColor = useColorModeValue('gray.900', 'white')
-  const menuTextColor = useColorModeValue('gray.600', 'gray.400')
+  const menuTextColor = useColorModeValue('gray.600', 'gray.300')
 
   const handleLogin = () => {
     dispatch(loginStart())
@@ -41,6 +41,15 @@ const Header = () => {
     { label: 'About', href: '/introduction' },
     ...(isAuthenticated ? [{ label: 'Admin', href: '/admin' }] : [])
   ]
+
+  const handleButtonMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget as HTMLElement
+    const rect = target.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    target.style.setProperty('--mx', `${x}px`)
+    target.style.setProperty('--my', `${y}px`)
+  }
 
   return (
     <Box
@@ -115,6 +124,7 @@ const Header = () => {
                     key={item.href}
                     to={item.href}
                     className={`crystal-button ${location.pathname === item.href ? 'crystal-button--primary' : 'crystal-button--ghost'}`}
+                    onMouseMove={handleButtonMouseMove}
                     style={{
                       fontSize: '14px',
                       fontWeight: '500',
@@ -195,6 +205,7 @@ const Header = () => {
                   <button
                     onClick={handleLogin}
                     className="crystal-button crystal-button--primary"
+                    onMouseMove={handleButtonMouseMove}
                     style={{
                       fontSize: '14px',
                       fontWeight: '500',

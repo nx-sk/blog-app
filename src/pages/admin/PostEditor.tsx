@@ -13,6 +13,8 @@ import {
   useToast,
   Heading,
   Divider,
+  Collapse,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
@@ -34,6 +36,7 @@ const PostEditor = () => {
   
   const { currentPost, loading } = useSelector((state: RootState) => state.posts)
   const { user } = useSelector((state: RootState) => state.auth)
+  const details = useDisclosure()
 
   const isEdit = Boolean(id && id !== 'new')
 
@@ -223,46 +226,54 @@ const PostEditor = () => {
           </HStack>
         </HStack>
 
-        <HStack spacing={4} align="start" className="crystal-glass crystal-glass--elevated" p={4} borderRadius="md">
-          <FormControl isRequired flex={2}>
-            <FormLabel>タイトル</FormLabel>
+        {/* タイトル行（シンプル） */}
+        <Box className="crystal-glass crystal-glass--surface" p={4} borderRadius="md">
+          <FormControl isRequired>
+            <FormLabel mb={1}>タイトル</FormLabel>
             <Input
               value={formData.title}
               onChange={(e) => handleChange('title', e.target.value)}
               placeholder="記事のタイトル"
+              size="md"
             />
           </FormControl>
+          <HStack justify="flex-end" mt={2}>
+            <Button size="sm" variant="ghost" onClick={details.onToggle}>
+              {details.isOpen ? '詳細設定を隠す' : '詳細設定を表示'}
+            </Button>
+          </HStack>
+        </Box>
 
-          <FormControl flex={1}>
-            <FormLabel>スラッグ</FormLabel>
-            <Input
-              value={formData.slug}
-              onChange={(e) => handleChange('slug', e.target.value)}
-              placeholder="自動生成: YYYYMMDD"
-            />
-          </FormControl>
-        </HStack>
-
-        <HStack spacing={4} align="start" className="crystal-glass crystal-glass--elevated" p={4} borderRadius="md">
-          <FormControl flex={2}>
-            <FormLabel>概要</FormLabel>
-            <Textarea
-              value={formData.excerpt}
-              onChange={(e) => handleChange('excerpt', e.target.value)}
-              placeholder="記事の概要（任意）"
-              rows={2}
-            />
-          </FormControl>
-
-          <FormControl flex={1}>
-            <FormLabel>アイキャッチ画像URL</FormLabel>
-            <Input
-              value={formData.featured_image}
-              onChange={(e) => handleChange('featured_image', e.target.value)}
-              placeholder="https://example.com/image.jpg"
-            />
-          </FormControl>
-        </HStack>
+        {/* 詳細設定（折りたたみ） */}
+        <Collapse in={details.isOpen} animateOpacity>
+          <HStack spacing={4} align="start" className="crystal-glass crystal-glass--elevated" p={4} borderRadius="md">
+            <FormControl flex={1}>
+              <FormLabel>スラッグ</FormLabel>
+              <Input
+                value={formData.slug}
+                onChange={(e) => handleChange('slug', e.target.value)}
+                placeholder="自動生成: YYYYMMDD"
+              />
+            </FormControl>
+            <FormControl flex={2}>
+              <FormLabel>概要</FormLabel>
+              <Textarea
+                value={formData.excerpt}
+                onChange={(e) => handleChange('excerpt', e.target.value)}
+                placeholder="記事の概要（任意）"
+                rows={2}
+              />
+            </FormControl>
+            <FormControl flex={2}>
+              <FormLabel>アイキャッチ画像URL</FormLabel>
+              <Input
+                value={formData.featured_image}
+                onChange={(e) => handleChange('featured_image', e.target.value)}
+                placeholder="https://example.com/image.jpg"
+              />
+            </FormControl>
+          </HStack>
+        </Collapse>
 
         <Divider />
 

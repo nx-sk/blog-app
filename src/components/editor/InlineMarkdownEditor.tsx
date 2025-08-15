@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import {
   Box,
   VStack,
@@ -24,6 +24,7 @@ import MDEditor from '@uiw/react-md-editor'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import rehypeSanitize from 'rehype-sanitize'
+import { supabase } from '../../services/supabase'
 
 type AnyIcon = React.ComponentType<any>
 
@@ -44,6 +45,7 @@ const InlineMarkdownEditor: React.FC<InlineMarkdownEditorProps> = ({
 }) => {
   const [localValue, setLocalValue] = useState(value)
   const [isPreview, setIsPreview] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
   // const toast = useToast()
 
   const { isAdminMode, isEditingMode } = useSelector(
@@ -110,6 +112,56 @@ const InlineMarkdownEditor: React.FC<InlineMarkdownEditorProps> = ({
     insertText('```\n', '\n```')
   }
 
+  // 画像アップロード（Supabase Storage /media バケット）
+  const uploadImage = useCallback(async (file: File): Promise<string | null> => {
+    try {
+      const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`
+      const filePath = `inline/${fileName}`
+      const { error } = await supabase.storage.from('media').upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false,
+      })
+      if (error) throw error
+      const { data: { publicUrl } } = supabase.storage.from('media').getPublicUrl(filePath)
+      return publicUrl
+    } catch (e) {
+      console.error('Inline image upload failed:', e)
+      return null
+    }
+  }, [])
+
+  // 画像のペーストに対応
+  const handlePaste = useCallback(async (e: React.ClipboardEvent) => {
+    const items = e.clipboardData?.items
+    if (!items) return
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i]
+      if (item.type.startsWith('image/')) {
+        e.preventDefault()
+        const file = item.getAsFile()
+        if (!file) continue
+        const url = await uploadImage(file)
+        if (url) {
+          const insert = `\n![画像](${url})\n`
+          const textarea = document.querySelector('.w-md-editor-text-input') as HTMLTextAreaElement | null
+          if (textarea) {
+            const start = textarea.selectionStart
+            const end = textarea.selectionEnd
+            const newText = localValue.substring(0, start) + insert + localValue.substring(end)
+            handleChange(newText)
+            setTimeout(() => {
+              textarea.focus()
+              textarea.setSelectionRange(start + insert.length, start + insert.length)
+            }, 0)
+          } else {
+            handleChange(localValue + insert)
+          }
+        }
+        break
+      }
+    }
+  }, [localValue, handleChange, uploadImage])
+
   // 編集不可の場合はプレビューのみ表示
   if (!canEdit) {
     return (
@@ -127,149 +179,29 @@ const InlineMarkdownEditor: React.FC<InlineMarkdownEditorProps> = ({
   }
 
   return (
-    <VStack spacing={4} align="stretch">
-      {/* ツールバー */}
-      <Box
-        bg="white"
-        borderRadius="md"
-        border="1px solid"
-        borderColor="gray.200"
-        p={2}
-      >
-        <HStack spacing={2} wrap="wrap">
-          <ButtonGroup size="sm" variant="ghost">
-            <IconButton
-              aria-label="Bold"
-              icon={<Icon as={FiBold as AnyIcon} />}
-              onClick={() => insertText('**', '**')}
-              title="太字"
-            />
-            <IconButton
-              aria-label="Italic"
-              icon={<Icon as={FiItalic as AnyIcon} />}
-              onClick={() => insertText('*', '*')}
-              title="斜体"
-            />
-            <IconButton
-              aria-label="Code"
-              icon={<Icon as={FiCode as AnyIcon} />}
-              onClick={() => insertText('`', '`')}
-              title="コード"
-            />
-          </ButtonGroup>
-
-          <Divider orientation="vertical" h="24px" />
-
-          <ButtonGroup size="sm" variant="ghost">
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => insertHeading(1)}
-              title="見出し1"
-            >
-              H1
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => insertHeading(2)}
-              title="見出し2"
-            >
-              H2
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => insertHeading(3)}
-              title="見出し3"
-            >
-              H3
-            </Button>
-          </ButtonGroup>
-
-          <Divider orientation="vertical" h="24px" />
-
-          <ButtonGroup size="sm" variant="ghost">
-            <IconButton
-              aria-label="Link"
-              icon={<Icon as={FiLink as AnyIcon} />}
-              onClick={insertLink}
-              title="リンク"
-            />
-            <IconButton
-              aria-label="Image"
-              icon={<Icon as={FiImage as AnyIcon} />}
-              onClick={insertImage}
-              title="画像"
-            />
-            <IconButton
-              aria-label="List"
-              icon={<Icon as={FiList as AnyIcon} />}
-              onClick={() => insertText('- ')}
-              title="リスト"
-            />
-            <IconButton
-              aria-label="Code Block"
-              icon={<Icon as={FiHash as AnyIcon} />}
-              onClick={insertCodeBlock}
-              title="コードブロック"
-            />
-          </ButtonGroup>
-
-          <Box flex={1} />
-
-          <ButtonGroup size="sm">
-            <Button
-              leftIcon={isPreview ? <Icon as={FiEdit as AnyIcon} /> : <Icon as={FiEye as AnyIcon} />}
-              onClick={() => setIsPreview(!isPreview)}
-              colorScheme="purple"
-              variant="outline"
-            >
-              {isPreview ? '編集' : 'プレビュー'}
-            </Button>
-          </ButtonGroup>
+    <VStack spacing={3} align="stretch" ref={containerRef} onPaste={handlePaste}>
+      <HStack spacing={2} justify="space-between">
+        <HStack spacing={1}>
+          <IconButton aria-label="Bold" size="sm" variant="ghost" icon={<Icon as={FiBold as AnyIcon} />} onClick={() => insertText('**', '**')} />
+          <IconButton aria-label="Italic" size="sm" variant="ghost" icon={<Icon as={FiItalic as AnyIcon} />} onClick={() => insertText('*', '*')} />
+          <IconButton aria-label="Code" size="sm" variant="ghost" icon={<Icon as={FiCode as AnyIcon} />} onClick={() => insertText('`', '`')} />
         </HStack>
-      </Box>
+        <Button size="sm" leftIcon={isPreview ? <Icon as={FiEdit as AnyIcon} /> : <Icon as={FiEye as AnyIcon} />} onClick={() => setIsPreview(!isPreview)} variant="outline" colorScheme="purple">
+          {isPreview ? '編集' : 'プレビュー'}
+        </Button>
+      </HStack>
 
-      {/* エディタ本体 */}
-      <Box
-        border="2px dashed"
-        borderColor="purple.300"
-        borderRadius="md"
-        overflow="hidden"
-        minH={minHeight}
-        maxH={maxHeight}
-        bg="white"
-      >
+      <Box border="1px solid" borderColor="gray.200" borderRadius="md" overflow="hidden" minH={minHeight} maxH={maxHeight} bg="white">
         {isPreview ? (
           <Box p={4} overflowY="auto" h="100%">
-            <MDEditor.Markdown
-              source={localValue}
-              rehypePlugins={[[rehypeSanitize]]}
-              style={{
-                backgroundColor: 'transparent',
-                color: 'inherit',
-              }}
-            />
+            <MDEditor.Markdown source={localValue} rehypePlugins={[[rehypeSanitize]]} style={{ backgroundColor: 'transparent', color: 'inherit' }} />
           </Box>
         ) : (
-          <MDEditor
-            value={localValue}
-            onChange={handleChange}
-            preview="edit"
-            hideToolbar
-            height={parseInt(minHeight)}
-            data-color-mode="light"
-            textareaProps={{
-              placeholder: placeholder,
-              style: {
-                fontSize: '16px',
-                lineHeight: '1.6',
-              },
-            }}
-          />
+          <MDEditor value={localValue} onChange={handleChange} preview="edit" hideToolbar height={parseInt(minHeight)} data-color-mode="light" textareaProps={{ placeholder, style: { fontSize: '16px', lineHeight: '1.6' } }} />
         )}
       </Box>
+
+      <Box as="p" fontSize="xs" color="gray.500">画像はコピー＆ペーストで自動挿入されます（Supabase Storage）。</Box>
     </VStack>
   )
 }
