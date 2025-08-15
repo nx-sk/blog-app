@@ -290,35 +290,37 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
       overflowY="auto"
       bg={colorMode === 'dark' ? 'gray.800' : 'white'}
       color={colorMode === 'dark' ? 'white' : 'gray.800'}
-      p={6}
+      p={4}
+      fontSize="sm"
+      lineHeight={1.7}
       sx={{
         '& h1': {
-          fontSize: '2xl',
+          fontSize: 'lg',
           fontWeight: 'bold',
-          mb: 4,
+          mb: 3,
           color: colorMode === 'dark' ? 'blue.300' : 'blue.600',
         },
         '& h2': {
-          fontSize: 'xl',
-          fontWeight: 'bold',
-          mb: 3,
-          mt: 6,
-          color: colorMode === 'dark' ? 'blue.300' : 'blue.600',
-        },
-        '& h3': {
-          fontSize: 'lg',
+          fontSize: 'md',
           fontWeight: 'bold',
           mb: 2,
           mt: 4,
           color: colorMode === 'dark' ? 'blue.300' : 'blue.600',
         },
+        '& h3': {
+          fontSize: 'sm',
+          fontWeight: 'bold',
+          mb: 1,
+          mt: 3,
+          color: colorMode === 'dark' ? 'blue.300' : 'blue.600',
+        },
         '& p': {
-          mb: 3,
+          mb: 2,
           lineHeight: 1.7,
         },
         '& ul, & ol': {
-          mb: 3,
-          pl: 6,
+          mb: 2,
+          pl: 5,
         },
         '& li': {
           mb: 1,
@@ -329,15 +331,15 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
           px: 1,
           py: 0.5,
           borderRadius: 'sm',
-          fontSize: 'sm',
+          fontSize: 'xs',
           fontFamily: 'mono',
         },
         '& pre': {
           bg: colorMode === 'dark' ? 'gray.700' : 'gray.100',
-          p: 4,
+          p: 3,
           borderRadius: 'md',
           overflowX: 'auto',
-          mb: 3,
+          mb: 2,
         },
         '& a': {
           color: colorMode === 'dark' ? 'blue.300' : 'blue.600',
@@ -347,7 +349,7 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
           maxWidth: '100%',
           height: 'auto',
           borderRadius: 'md',
-          mb: 3,
+          mb: 2,
           cursor: 'pointer',
           transition: 'transform 0.2s',
           '&:hover': {
@@ -392,7 +394,7 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
   )
 
   return (
-    <VStack spacing={4} align="stretch" h="calc(100vh - 200px)">
+    <VStack spacing={4} align="stretch" h="calc(100vh - 200px)" pr={{ lg: showSidePreview ? '380px' : 0 }}>
       {/* 目次（編集画面用） */}
       {tocItems.length > 0 && (
         <Box
@@ -565,9 +567,9 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
       {showSidePreview && (
         <Box
           position="fixed"
-          right={{ base: 3, xl: 8 }}
+          right={{ base: 4, xl: 12 }}
           top={{ base: '96px', md: '110px' }}
-          w={{ base: '260px', xl: '320px' }}
+          w={{ base: '240px', xl: '300px' }}
           maxH="70vh"
           overflowY="auto"
           border="1px solid"

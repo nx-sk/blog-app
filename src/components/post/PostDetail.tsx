@@ -163,7 +163,7 @@ const PostDetail = ({ post }: PostDetailProps) => {
       {/* 記事全体のグラス背景ラッパー */}
       <Box className="crystal-glass crystal-glass--surface" p={{ base: 4, md: 6 }} borderRadius="lg">
         {/* 固定幅の本文カラム（常に左寄せ） */}
-        <Box maxW="760px" mr="auto">
+        <Box w={{ base: '100%', md: '760px' }} mr="auto">
           {/* ヘッダー部分（アイキャッチは表示しない） */}
           <VStack spacing={3} align="stretch" mb={6}>
             <Heading as="h1" size="2xl" lineHeight="1.2">
