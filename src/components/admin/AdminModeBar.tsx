@@ -106,10 +106,7 @@ const AdminModeBar: React.FC = () => {
 
     try {
       // 下書き保存の処理
-      const draftPost = {
-        ...currentEditingPost,
-        isDraft: true,
-      }
+      // 実際の保存データはあとで実装（下書きフラグを想定）
       // 実際の保存処理はあとで実装
       dispatch(markPostAsSaved())
       toast({
@@ -145,7 +142,7 @@ const AdminModeBar: React.FC = () => {
   }
 
   const isPostPage = location.pathname.startsWith('/posts/')
-  const isNewPost = location.pathname === '/posts/new'
+  // const isNewPost = location.pathname === '/posts/new'
 
   return (
     <Box

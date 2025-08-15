@@ -27,6 +27,7 @@ const ZennStyleTableOfContents = ({ items }: ZennStyleTableOfContentsProps) => {
   const linkHoverColor = useColorModeValue('brand.600', 'brand.300')
   const activeLinkColor = useColorModeValue('brand.700', 'brand.300')
   const activeBorderColor = useColorModeValue('brand.500', 'brand.400')
+  const headerColor = useColorModeValue('brand.700','brand.300')
 
   // スクロール位置に基づいてアクティブな見出しを更新
   useEffect(() => {
@@ -101,7 +102,7 @@ const ZennStyleTableOfContents = ({ items }: ZennStyleTableOfContentsProps) => {
       <Text 
         fontSize="xs" 
         fontWeight="bold" 
-        color={useColorModeValue('brand.700','brand.300')}
+        color={headerColor}
         mb={3}
         textTransform="uppercase"
         letterSpacing="wider"

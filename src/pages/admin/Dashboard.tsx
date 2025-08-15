@@ -13,7 +13,6 @@ import {
   StatLabel,
   StatNumber,
   StatHelpText,
-  useColorModeValue,
 } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'

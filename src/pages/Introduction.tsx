@@ -10,7 +10,6 @@ import {
   Link,
   VStack,
   HStack,
-  useColorModeValue,
 } from '@chakra-ui/react';
 
 const Introduction = () => {

@@ -11,7 +11,6 @@ import {
   Icon,
 } from '@chakra-ui/react'
 import { FaGoogle } from 'react-icons/fa'
-import { useToast } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store'
 import { loginStart } from '../store/slices/authSlice'
@@ -22,7 +21,6 @@ const Login = () => {
   const dispatch = useDispatch()
   const { loading, error } = useSelector((state: RootState) => state.auth)
 
-  const cardBg = useColorModeValue('white', 'gray.800')
   const textColor = useColorModeValue('gray.600', 'gray.300')
 
   const handleGoogleLogin = () => {

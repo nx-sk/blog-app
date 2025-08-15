@@ -7,12 +7,6 @@ import {
   ButtonGroup,
   IconButton,
   Divider,
-  useToast,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
   Icon,
 } from '@chakra-ui/react'
 import {
@@ -50,7 +44,7 @@ const InlineMarkdownEditor: React.FC<InlineMarkdownEditorProps> = ({
 }) => {
   const [localValue, setLocalValue] = useState(value)
   const [isPreview, setIsPreview] = useState(false)
-  const toast = useToast()
+  // const toast = useToast()
 
   const { isAdminMode, isEditingMode } = useSelector(
     (state: RootState) => state.adminMode

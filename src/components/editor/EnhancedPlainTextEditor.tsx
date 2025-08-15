@@ -23,7 +23,6 @@ import {
   useDisclosure,
   Grid,
   IconButton,
-  Flex,
 } from '@chakra-ui/react'
 import { ChevronUpIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import ReactMarkdown from 'react-markdown'
@@ -76,7 +75,7 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
   }, [value])
 
   // 画像アップロード処理
-  const uploadImage = async (file: File): Promise<string | null> => {
+  const uploadImage = useCallback(async (file: File): Promise<string | null> => {
     try {
       if (process.env.NODE_ENV === 'development') {
         console.log('画像アップロード開始:', file.name, 'サイズ:', file.size)
@@ -155,7 +154,7 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
       })
       return null
     }
-  }
+  }, [postId, toast])
 
   // ファイル選択からの画像アップロード
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -181,7 +180,7 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
   }
 
   // 画像を挿入
-  const insertImage = (url: string) => {
+  const insertImage = useCallback((url: string) => {
     const imageMarkdown = `\n![画像](${url})\n`
     const textarea = textareaRef.current
     
@@ -205,7 +204,7 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
       duration: 2000,
       isClosable: true,
     })
-  }
+  }, [value, onChange, toast])
 
   // クリップボードペーストイベント処理
   const handlePaste = useCallback(async (event: React.ClipboardEvent) => {
@@ -228,7 +227,7 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
         break
       }
     }
-  }, [value, onChange])
+  }, [uploadImage, insertImage])
 
   // Markdownボタン機能
   const insertMarkdown = useCallback((before: string, after: string = '') => {

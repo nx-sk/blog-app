@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store'
-import { fetchPostStart, createPostStart, updatePostStart } from '../store/slices/postsSlice'
+import { fetchPostStart } from '../store/slices/postsSlice'
 import {
   setCurrentEditingPost,
   updateCurrentEditingPost,
-  resetEditingState,
   markPostAsSaved,
 } from '../store/slices/adminModeSlice'
 import PostDetail from '../components/post/PostDetail'
@@ -37,7 +36,6 @@ interface TOCItem {
 
 const PostPage = () => {
   const { slug } = useParams<{ slug: string }>()
-  const navigate = useNavigate()
   const dispatch = useDispatch()
   const toast = useToast()
   
@@ -114,18 +112,7 @@ const PostPage = () => {
     }
   }, [currentPost, currentEditingPost])
 
-  // 自動保存
-  useEffect(() => {
-    if (currentEditingPost?.hasUnsavedChanges) {
-      const timer = setTimeout(() => {
-        handleAutoSave()
-      }, 30000) // 30秒後に自動保存
-
-      return () => clearTimeout(timer)
-    }
-  }, [currentEditingPost])
-
-  const handleAutoSave = async () => {
+  const handleAutoSave = React.useCallback(async () => {
     if (!currentEditingPost) return
 
     try {
@@ -148,9 +135,20 @@ const PostPage = () => {
     } catch (error) {
       console.error('Auto save failed:', error)
     }
-  }
+  }, [currentEditingPost, dispatch, toast])
 
-  const handleSave = async () => {
+  // 自動保存
+  useEffect(() => {
+    if (currentEditingPost?.hasUnsavedChanges) {
+      const timer = setTimeout(() => {
+        handleAutoSave()
+      }, 30000) // 30秒後に自動保存
+
+      return () => clearTimeout(timer)
+    }
+  }, [currentEditingPost, handleAutoSave])
+
+  /* const handleSave = async () => {
     if (!currentEditingPost) return
 
     try {
@@ -220,7 +218,7 @@ const PostPage = () => {
         isClosable: true,
       })
     }
-  }
+  } */
 
   const handleUpdateField = (field: string, value: any) => {
     dispatch(updateCurrentEditingPost({ [field]: value }))

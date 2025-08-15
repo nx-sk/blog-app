@@ -1,10 +1,10 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { supabase } from '../../services/supabase'
-import { loginStart, loginSuccess, loginFailure, logout } from '../slices/authSlice'
+import { loginStart, loginFailure, logout } from '../slices/authSlice'
 
 function* loginSaga(): Generator<any, void, any> {
   try {
-    const { data, error } = yield call(
+    const { error } = yield call(
       [supabase.auth, 'signInWithOAuth'],
       {
         provider: 'google',
