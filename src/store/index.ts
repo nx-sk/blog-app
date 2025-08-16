@@ -5,6 +5,7 @@ import postsSlice from './slices/postsSlice'
 import uiSlice from './slices/uiSlice'
 import adminModeSlice from './slices/adminModeSlice'
 import rootSaga from './sagas/rootSaga'
+import settingsSlice from './slices/settingsSlice'
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -14,6 +15,7 @@ export const store = configureStore({
     posts: postsSlice,
     ui: uiSlice,
     adminMode: adminModeSlice,
+    settings: settingsSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

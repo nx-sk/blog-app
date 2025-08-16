@@ -15,17 +15,21 @@ import { RootState } from '../../store'
 import { loginStart, logout } from '../../store/slices/authSlice'
 import Container from './Container'
 import '../../styles/crystalGlass.css'
+import InlineEditableField from '../editor/InlineEditableField'
 
 const Header = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
   const { user, isAuthenticated } = useSelector((state: RootState) => state.auth)
+  const { isAdminMode, isEditingMode } = useSelector((state: RootState) => state.adminMode)
+  const settings = useSelector((state: RootState) => state.settings.data)
+  const canEdit = isAdminMode && isEditingMode
   
   // Move all hooks to the top level
-  const menuBgColor = useColorModeValue('rgba(255, 255, 255, 0.85)', 'rgba(10, 12, 16, 0.85)')
-  const textColor = useColorModeValue('gray.900', 'white')
-  const menuTextColor = useColorModeValue('gray.600', 'gray.300')
+  const menuBgColor = useColorModeValue('rgba(255, 255, 255, 0.9)', 'rgba(10, 12, 16, 0.85)')
+  const textColor = useColorModeValue('text.primary', 'text.primary')
+  const menuTextColor = useColorModeValue('text.meta', 'text.meta')
 
   const handleLogin = () => {
     dispatch(loginStart())
@@ -38,7 +42,6 @@ const Header = () => {
 
   const navItems = [
     { label: 'Home', href: '/' },
-    { label: 'About', href: '/introduction' },
     ...(isAuthenticated ? [{ label: 'Admin', href: '/admin' }] : [])
   ]
 
@@ -77,19 +80,31 @@ const Header = () => {
             {/* Brand & Title Section */}
             <Box flex="1" minW="300px">
               <Box display="flex" alignItems="center" gap={3} mb={2}>
-                <Text
-                  as={Link}
-                  to="/"
-                  fontSize="2xl"
-                  fontWeight="700"
-                  color={textColor}
-                  textDecoration="none"
-                  _hover={{ textDecoration: 'none' }}
-                  letterSpacing="-0.03em"
-                  lineHeight="1"
-                >
-                  Digital Atelier
-                </Text>
+                {canEdit ? (
+                  <InlineEditableField
+                    value={settings?.header_brand || 'Digital Atelier'}
+                    onChange={(v) => dispatch({ type: 'settings/updateSettingsStart', payload: { header_brand: v } })}
+                    as="heading"
+                    fontSize="2xl"
+                    fontWeight={700}
+                    tooltip="ヘッダーブランド名を編集"
+                  />
+                ) : (
+                  <Text
+                    as={Link}
+                    to="/"
+                    fontSize="2xl"
+                    fontWeight="700"
+                    color="#000"
+                    textDecoration="none"
+                    sx={{ '&:visited': { color: '#000' } }}
+                    _hover={{ textDecoration: 'none' }}
+                    letterSpacing="-0.03em"
+                    lineHeight="1"
+                  >
+                    {settings?.header_brand || 'Digital Atelier'}
+                  </Text>
+                )}
                 <Box
                   w="1px"
                   h="20px"

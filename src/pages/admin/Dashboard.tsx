@@ -36,12 +36,11 @@ const Dashboard = () => {
   const draftPosts = posts.filter(post => post.status === 'draft')
 
   return (
-    <Box>
+    <Box w={{ base: '100%', xl: '1000px' }} mr="auto">
       <VStack spacing={6} align="stretch">
         <HStack justify="space-between" align="center">
-          <Heading as="h1" size="xl">
-            管理画面
-          </Heading>
+          {/* 見出しは省略してアクションのみ配置 */}
+          <Box />
           <Button
             as={RouterLink}
             to="/admin/posts/new"
@@ -51,10 +50,6 @@ const Dashboard = () => {
             新規記事作成
           </Button>
         </HStack>
-
-        <Text color="gray.600">
-          こんにちは、{user?.user_metadata.name}さん
-        </Text>
 
         {/* 統計情報 */}
         <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={6}>

@@ -34,8 +34,8 @@ const PostDetail = ({ post }: PostDetailProps) => {
   const { colorMode } = useColorMode()
   const [tocItems, setTocItems] = useState<TOCItem[]>([])
   
-  const textColor = useColorModeValue('gray.800', 'gray.200')
-  const metaColor = useColorModeValue('gray.600', 'gray.400')
+  const textColor = useColorModeValue('#000000', 'gray.100')
+  const metaColor = useColorModeValue('#333333', 'gray.400')
   const codeStyle = colorMode === 'dark' ? oneDark : oneLight
 
   const formatDate = (dateString: string) => {
@@ -162,11 +162,19 @@ const PostDetail = ({ post }: PostDetailProps) => {
     <Box>
       {/* 記事全体のグラス背景ラッパー */}
       <Box className="crystal-glass crystal-glass--surface" p={{ base: 4, md: 6 }} borderRadius="lg">
-        {/* 固定幅の本文カラム（常に左寄せ） */}
-        <Box w={{ base: '100%', md: '760px' }} mr="auto">
+        {/* 固定幅の本文カラム（上限 660px・中央寄せ） */}
+        <Box
+          className="prose"
+          maxW="740px"
+          w="100%"
+          mx="auto"
+          sx={{
+            '& a': { overflowWrap: 'anywhere', wordBreak: 'break-word' },
+          }}
+        >
           {/* ヘッダー部分（アイキャッチは表示しない） */}
-          <VStack spacing={3} align="stretch" mb={6}>
-            <Heading as="h1" size="2xl" lineHeight="1.2">
+        <VStack spacing={3} align="stretch" mb={6}>
+            <Heading as="h1" size="2xl" lineHeight="1.2" color="#000">
               {post.title}
             </Heading>
 

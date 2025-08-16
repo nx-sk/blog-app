@@ -1,9 +1,18 @@
 import React, { useEffect, useRef } from 'react'
-import { Box } from '@chakra-ui/react'
+import { Box, usePrefersReducedMotion } from '@chakra-ui/react'
+import { keyframes } from '@emotion/react'
 
 const GeometricBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef<number | null>(null)
+  const prefersReducedMotion = usePrefersReducedMotion()
+
+  // Ensure keyframes exist in production (Vercel) even if CSS order changes
+  const gradientShift = keyframes`
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  `
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -226,7 +235,8 @@ const GeometricBackground: React.FC = () => {
       zIndex={0}
       bg="linear-gradient(135deg, #ffffff 0%, #f8fafc 40%, #f1f5f9 100%)"
       backgroundSize="200% 200%"
-      animation="gradientShift 40s ease infinite"
+      animation={prefersReducedMotion ? undefined : `${gradientShift} 40s ease infinite`}
+      willChange="background-position"
       pointerEvents="none"
       _before={{
         content: '""',

@@ -1,5 +1,6 @@
-/* Import crystal glass design system */
+/* Import design systems (order matters: base first, then prose overrides) */
 @import './styles/crystalGlass.css';
+@import './styles/prose.css';
 
 * {
   box-sizing: border-box;

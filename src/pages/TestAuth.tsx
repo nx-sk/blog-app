@@ -9,19 +9,19 @@ const TestAuth = () => {
   useEffect(() => {
     // 認証コールバックのハンドリング
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log('Auth event:', event)
         console.log('Session:', session)
       }
       
-      if (process.env.NODE_ENV === 'development' && event === 'SIGNED_IN') {
+      if (import.meta.env.DEV && event === 'SIGNED_IN') {
         console.log('User signed in successfully!')
       }
     })
 
     // 現在のセッションを確認
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log('Current session:', session)
       }
     })
@@ -44,7 +44,7 @@ const TestAuth = () => {
         console.error('Login error:', error)
         alert(`Error: ${error.message}`)
       } else {
-        if (process.env.NODE_ENV === 'development') {
+        if (import.meta.env.DEV) {
           console.log('Login initiated:', data)
         }
       }
@@ -58,7 +58,7 @@ const TestAuth = () => {
     if (error) {
       console.error('Logout error:', error)
     } else {
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log('Logged out successfully')
       }
     }
@@ -69,7 +69,7 @@ const TestAuth = () => {
     if (error) {
       console.error('Session check error:', error)
     } else {
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log('Current session:', session)
       }
       alert(session ? `Logged in as: ${session.user.email}` : 'Not logged in')

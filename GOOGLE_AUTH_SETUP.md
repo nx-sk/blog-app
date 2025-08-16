@@ -20,10 +20,10 @@
 
 ## 環境変数の更新
 
-`.env.local`ファイルのREACT_APP_GOOGLE_CLIENT_IDを更新：
+`.env.local`ファイルのVITE_GOOGLE_CLIENT_IDを更新：
 
 ```
-REACT_APP_GOOGLE_CLIENT_ID=あなたのクライアントID
+VITE_GOOGLE_CLIENT_ID=あなたのクライアントID
 ```
 
 ## テスト方法

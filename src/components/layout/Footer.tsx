@@ -3,8 +3,8 @@ import { Box, Text, HStack, Link, useColorModeValue } from '@chakra-ui/react'
 import Container from './Container'
 
 const Footer = () => {
-  const textColor = useColorModeValue('gray.600', 'gray.400')
-  const linkColor = useColorModeValue('gray.700', 'gray.300')
+  const textColor = useColorModeValue('text.meta', 'text.meta')
+  const linkColor = useColorModeValue('text.primary', 'text.primary')
 
   return (
     <Box as="footer" py={16} mt={20}>

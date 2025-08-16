@@ -76,20 +76,20 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
   // 画像アップロード処理
   const uploadImage = useCallback(async (file: File): Promise<string | null> => {
     try {
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log('画像アップロード開始:', file.name, 'サイズ:', file.size)
       }
       
       const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`
       const filePath = postId ? `posts/${postId}/${fileName}` : `temp/${fileName}`
 
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log('アップロードパス:', filePath)
       }
 
       // まずStorageバケットの存在確認
       const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets()
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log('利用可能なバケット:', buckets)
       }
       
@@ -99,7 +99,7 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
       }
 
       // ファイルサイズとタイプの確認
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log('ファイル詳細:', {
           name: file.name,
           size: file.size,
@@ -129,7 +129,7 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
         throw error
       }
 
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log('アップロード成功:', data)
       }
 
@@ -137,7 +137,7 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
         .from('media')
         .getPublicUrl(data.path)
 
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log('公開URL:', publicUrl)
       }
 

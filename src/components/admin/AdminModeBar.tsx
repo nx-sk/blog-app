@@ -46,7 +46,7 @@ const AdminModeBar: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.auth)
 
   // デバッグ情報（開発時のみ）
-  if (process.env.NODE_ENV === 'development') {
+  if (import.meta.env.DEV) {
     console.log('AdminModeBar - isAdmin:', isAdmin, 'user:', user, 'isAdminMode:', isAdminMode)
   }
 

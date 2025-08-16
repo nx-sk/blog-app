@@ -97,7 +97,7 @@ const PostList = () => {
   }
 
   return (
-    <Box>
+    <Box w={{ base: '100%', xl: '1000px' }} mr="auto">
       <HStack justify="space-between" align="center" mb={6}>
         <Heading as="h1" size="xl">
           記事管理

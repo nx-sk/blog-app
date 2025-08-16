@@ -1,0 +1,76 @@
+/* Prose styles: consistent typography and colors for markdown content */
+.prose {
+  /* Force solid black in light mode for clarity */
+  color: #000 !important;
+  max-width: 100%;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+/* Inherit forced color to children (overrides competing rules) */
+.prose * { color: inherit !important; }
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  color: inherit !important;
+  line-height: 1.25;
+  margin-top: 1.25em;
+  margin-bottom: 0.75em;
+}
+
+.prose h1 { font-size: 1.875rem; }
+.prose h2 { font-size: 1.5rem; }
+.prose h3 { font-size: 1.25rem; }
+.prose h4 { font-size: 1.125rem; }
+.prose h5 { font-size: 1rem; }
+.prose h6 { font-size: 0.875rem; }
+
+.prose p,
+.prose ul,
+.prose ol,
+.prose blockquote,
+.prose pre {
+  margin-bottom: 1rem;
+}
+
+.prose a {
+  color: var(--chakra-colors-brand-700);
+  text-decoration: underline;
+}
+.prose a:hover { color: var(--chakra-colors-brand-800); }
+
+.prose code {
+  background: var(--chakra-colors-gray-100);
+  color: var(--chakra-colors-black);
+  padding: 0.15em 0.35em;
+  border-radius: 0.25rem;
+}
+
+.prose pre {
+  background: var(--chakra-colors-gray-100);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  display: block;
+}
+
+.prose blockquote {
+  border-left: 4px solid var(--chakra-colors-brand-500);
+  padding-left: 1rem;
+  background: var(--chakra-colors-gray-50);
+  font-style: italic;
+}
+
+.prose ul { padding-left: 1.25rem; }
+.prose ol { padding-left: 1.25rem; }

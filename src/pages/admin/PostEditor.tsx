@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
   Box,
@@ -15,6 +15,14 @@ import {
   Divider,
   Collapse,
   useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  SimpleGrid,
+  Image,
 } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
@@ -25,6 +33,7 @@ import {
   clearCurrentPost,
 } from '../../store/slices/postsSlice'
 import EnhancedPlainTextEditor from '../../components/editor/EnhancedPlainTextEditor'
+import { supabase } from '../../services/supabase'
 import Loading from '../../components/common/Loading'
 import '../../styles/crystalGlass.css'
 
@@ -37,6 +46,10 @@ const PostEditor = () => {
   const { currentPost, loading } = useSelector((state: RootState) => state.posts)
   const { user } = useSelector((state: RootState) => state.auth)
   const details = useDisclosure()
+  const imagePicker = useDisclosure()
+  const [pickerImages, setPickerImages] = useState<string[]>([])
+  const [isDragging, setIsDragging] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const isEdit = Boolean(id && id !== 'new')
 
@@ -181,8 +194,92 @@ const PostEditor = () => {
     return <Loading />
   }
 
+  // 画像ピッカー
+  const listImages = async () => {
+    try {
+      const prefixes: string[] = []
+      if (isEdit && currentPost?.id) prefixes.push(`posts/${currentPost.id}`)
+      prefixes.push('temp')
+      const urls: string[] = []
+      for (const prefix of prefixes) {
+        const { data, error } = await supabase.storage.from('media').list(prefix, {
+          limit: 50,
+          sortBy: { column: 'created_at', order: 'desc' as const },
+        })
+        if (error) continue
+        for (const f of data || []) {
+          if (f.name) {
+            const { data: pub } = supabase.storage.from('media').getPublicUrl(`${prefix}/${f.name}`)
+            if (pub?.publicUrl) urls.push(pub.publicUrl)
+          }
+        }
+      }
+      setPickerImages(urls)
+    } catch (e) {}
+  }
+
+  const uploadFeatured = async (file: File) => {
+    const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`
+    const prefix = isEdit && currentPost?.id ? `posts/${currentPost.id}` : 'temp'
+    const { error } = await supabase.storage.from('media').upload(`${prefix}/${fileName}`, file, { cacheControl: '3600', upsert: false })
+    if (!error) {
+      const { data: pub } = supabase.storage.from('media').getPublicUrl(`${prefix}/${fileName}`)
+      if (pub?.publicUrl) {
+        handleChange('featured_image', pub.publicUrl)
+        toast({ title: 'アイキャッチを設定しました', status: 'success', duration: 2000, isClosable: true })
+      }
+    } else {
+      toast({ title: 'アップロードに失敗しました', status: 'error' })
+    }
+  }
+
+  const handlePasteFeatured = async (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const items = e.clipboardData?.items
+    if (!items) return
+    for (let i = 0; i < items.length; i++) {
+      const it = items[i]
+      if (it.type.startsWith('image/')) {
+        e.preventDefault()
+        const file = it.getAsFile()
+        if (!file) continue
+        await uploadFeatured(file)
+        break
+      }
+    }
+  }
+
+  const handleDropFeatured = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    setIsDragging(false)
+    const dt = e.dataTransfer
+    if (dt?.files && dt.files.length > 0) {
+      const file = dt.files[0]
+      if (file.type.startsWith('image/')) {
+        await uploadFeatured(file)
+      } else {
+        toast({ title: '画像ファイルをドロップしてください', status: 'warning', duration: 2000 })
+      }
+    }
+  }
+
+  const handleDragOverFeatured = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    setIsDragging(true)
+  }
+
+  const handleDragLeaveFeatured = () => setIsDragging(false)
+
+  const handlePickLocalFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file && file.type.startsWith('image/')) {
+      await uploadFeatured(file)
+    }
+    e.target.value = ''
+  }
+
   return (
-    <Box maxW="100%" mx="auto" px={4} py={6}>
+    <>
+    <Box w={{ base: '100%', xl: '1000px' }} mr="auto" px={4} py={6}>
       <VStack spacing={6} align="stretch">
         <HStack justify="space-between" align="center">
           <Heading as="h1" size="xl">
@@ -265,12 +362,32 @@ const PostEditor = () => {
               />
             </FormControl>
             <FormControl flex={2}>
-              <FormLabel>アイキャッチ画像URL</FormLabel>
-              <Input
-                value={formData.featured_image}
-                onChange={(e) => handleChange('featured_image', e.target.value)}
-                placeholder="https://example.com/image.jpg"
-              />
+              <FormLabel>アイキャッチ画像（D&D / PASTE 可）</FormLabel>
+              <Box
+                onDrop={handleDropFeatured}
+                onDragOver={handleDragOverFeatured}
+                onDragLeave={handleDragLeaveFeatured}
+                p={3}
+                border="2px dashed"
+                borderColor={isDragging ? 'purple.400' : 'gray.300'}
+                borderRadius="md"
+                bg={isDragging ? 'purple.50' : 'transparent'}
+              >
+                <HStack align="center" spacing={3}>
+                  {formData.featured_image && (
+                    <Image src={formData.featured_image} alt="preview" boxSize="64px" objectFit="cover" borderRadius="md" />
+                  )}
+                  <Input
+                    value={formData.featured_image}
+                    onChange={(e) => handleChange('featured_image', e.target.value)}
+                    onPaste={handlePasteFeatured}
+                    placeholder="画像URL または ここに画像をペースト / ドロップ"
+                  />
+                  <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handlePickLocalFile} />
+                  <Button size="sm" variant="outline" onClick={() => fileInputRef.current?.click()}>選択</Button>
+                  <Button size="sm" variant="ghost" onClick={async () => { await listImages(); imagePicker.onOpen() }}>一覧</Button>
+                </HStack>
+              </Box>
             </FormControl>
           </HStack>
         </Collapse>
@@ -289,6 +406,26 @@ const PostEditor = () => {
         </Box>
       </VStack>
     </Box>
+    <Modal isOpen={imagePicker.isOpen} onClose={imagePicker.onClose} size="xl">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>アップロード済み画像から選択</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <SimpleGrid columns={{ base: 3, md: 4 }} spacing={3}>
+            {pickerImages.map((url) => (
+              <Box key={url} border="1px solid" borderColor="gray.200" borderRadius="md" overflow="hidden" cursor="pointer" onClick={() => { handleChange('featured_image', url); imagePicker.onClose() }}>
+                <Image src={url} alt="image" objectFit="cover" w="100%" h="80px" />
+              </Box>
+            ))}
+          </SimpleGrid>
+          {pickerImages.length === 0 && (
+            <Box color="gray.500" mt={2}>画像が見つかりません。記事本文で画像を貼り付けると候補に表示されます。</Box>
+          )}
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+    </>
   )
 }
 

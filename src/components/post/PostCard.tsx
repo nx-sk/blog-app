@@ -17,11 +17,11 @@ interface PostCardProps {
 }
 
 const PostCard = ({ post }: PostCardProps) => {
-  const textColor = useColorModeValue('gray.600', 'gray.300')
-  const dateColor = useColorModeValue('gray.500', 'gray.300')
-  const titleColor = useColorModeValue('gray.900', 'white')
-  const tagColor = useColorModeValue('gray.600', 'gray.300')
-  const linkColor = useColorModeValue('brand.600', 'brand.400')
+  const textColor = useColorModeValue('text.muted', 'text.muted')
+  const dateColor = useColorModeValue('text.meta', 'text.meta')
+  const titleColor = useColorModeValue('text.primary', 'text.primary')
+  const tagColor = useColorModeValue('text.meta', 'text.meta')
+  const linkColor = useColorModeValue('link.default', 'link.default')
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('ja-JP', {

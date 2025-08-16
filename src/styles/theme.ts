@@ -10,17 +10,18 @@ const theme = extendTheme({
     body: `Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`,
   },
   colors: {
+    // Calibrated neutral palette for better contrast on white
     gray: {
-      50: '#fafafa',
-      100: '#f5f5f5',
-      200: '#e5e5e5',
-      300: '#d4d4d4',
-      400: '#a3a3a3',
-      500: '#737373',
-      600: '#525252',
-      700: '#404040',
-      800: '#262626',
-      900: '#171717',
+      50: '#f9fafb',
+      100: '#f3f4f6',
+      200: '#e5e7eb',
+      300: '#d1d5db',
+      400: '#9ca3af',
+      500: '#6b7280',
+      600: '#4b5563',
+      700: '#374151',
+      800: '#1f2937',
+      900: '#111827',
     },
     // 紫系アクセント（brand）
     brand: {
@@ -49,6 +50,17 @@ const theme = extendTheme({
       900: '#064e3b',
     },
   },
+  semanticTokens: {
+    colors: {
+      'text.primary': { default: '#000000', _dark: 'gray.100' },
+      'text.muted': { default: '#111111', _dark: 'gray.200' },
+      'text.meta': { default: '#333333', _dark: 'gray.400' },
+      'link.default': { default: 'brand.700', _dark: 'brand.300' },
+      'border.subtle': { default: 'gray.200', _dark: 'gray.700' },
+      'bg.canvas': { default: 'white', _dark: 'gray.900' },
+      'bg.surface': { default: 'white', _dark: 'gray.800' },
+    },
+  },
   components: {
     Container: {
       baseStyle: {
@@ -60,8 +72,8 @@ const theme = extendTheme({
   styles: {
     global: (_props: any) => ({
       'html, body': {
-        bg: 'white',
-        color: 'gray.900',
+        bg: 'bg.canvas',
+        color: 'text.primary',
         fontSize: '16px',
         lineHeight: '1.7',
       },
