@@ -20,7 +20,8 @@ interface FullPostCardProps {
 const FullPostCard = ({ post }: FullPostCardProps) => {
   const textColor = useColorModeValue('text.primary', 'text.primary')
   const metaColor = useColorModeValue('text.meta', 'text.meta')
-  const titleColor = useColorModeValue('#000000', 'gray.100')
+  // Match the purple tone you preferred (align all titles consistently)
+  const titleColor = useColorModeValue('#551A8B', 'brand.300')
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('ja-JP', {
@@ -31,17 +32,17 @@ const FullPostCard = ({ post }: FullPostCardProps) => {
   }
 
   return (
-    <Box className="crystal-glass crystal-glass--surface" borderRadius="xl" p={{ base: 4, md: 6 }}>
+    <Box className="crystal-glass crystal-glass--surface no-hover" borderRadius="md" p={{ base: 4, md: 6 }}>
       <Heading
         as={RouterLink}
         to={`/posts/${post.slug || post.id}`}
+        className="post-title-link"
         size="lg"
         fontWeight="700"
         letterSpacing="-0.02em"
         color={titleColor}
-        sx={{ '&:visited': { color: '#000' } }}
         mb={2}
-        _hover={{ textDecoration: 'none', opacity: 0.9 }}
+        _hover={{ textDecoration: 'none', color: '#4A148C' }}
       >
         {post.title}
       </Heading>
@@ -64,7 +65,7 @@ const FullPostCard = ({ post }: FullPostCardProps) => {
         color={textColor}
         lineHeight={1.8}
         fontSize="md"
-        maxW="740px"
+        maxW="790px"
         mx="auto"
         sx={{
           '& a': { overflowWrap: 'anywhere', wordBreak: 'break-word' },

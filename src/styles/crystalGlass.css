@@ -48,8 +48,9 @@
   border: 1px solid var(--crystal-edge);
   border-radius: 12px;
   
-  /* Subtle shadow for depth */
-  box-shadow: 
+  /* Subtle shadow for depth + thin outline ring for separation */
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.06),
     var(--crystal-shadow-subtle),
     inset 0 1px 0 var(--crystal-edge-light);
   
@@ -96,10 +97,23 @@
 /* Refined Hover State */
 .crystal-glass:hover {
   transform: translateY(-1px);
-  box-shadow: 
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.08),
     var(--crystal-shadow-medium),
     inset 0 1px 0 var(--crystal-edge-strong);
   background: var(--crystal-white-8);
+}
+
+/* Disable hover effects for static glass blocks */
+.crystal-glass.no-hover:hover {
+  transform: none !important;
+  background: inherit;
+}
+.crystal-glass--surface.no-hover:hover {
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.08),
+    var(--crystal-shadow-subtle),
+    inset 0 1px 0 var(--crystal-edge-light) !important;
 }
 
 .crystal-glass:hover::after {
@@ -136,9 +150,14 @@
 
 /* Depth Variants - Subtle Differences */
 .crystal-glass--surface {
-  --crystal-blur: 4px;
-  background: var(--crystal-white-3);
-  box-shadow: var(--crystal-shadow-subtle);
+  --crystal-blur: 6px;
+  background: var(--crystal-white-8);
+  /* stronger edge visibility */
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.08),
+    var(--crystal-shadow-subtle),
+    inset 0 1px 0 var(--crystal-edge-light);
 }
 
 .crystal-glass--elevated {
@@ -161,10 +180,13 @@
   /* Base glass properties */
   backdrop-filter: blur(var(--crystal-blur)) saturate(var(--crystal-saturation));
   -webkit-backdrop-filter: blur(var(--crystal-blur)) saturate(var(--crystal-saturation));
-  background: var(--crystal-white-5);
-  border: 1px solid var(--crystal-edge);
+  background: var(--crystal-white-8);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 16px;
-  box-shadow: var(--crystal-shadow-medium);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.08),
+    var(--crystal-shadow-medium),
+    inset 0 1px 0 var(--crystal-edge-light);
   
   transition: all var(--crystal-transition);
 }
@@ -173,7 +195,7 @@
 .crystal-card__header {
   position: relative;
   padding: 24px 28px 20px;
-  border-bottom: 1px solid var(--crystal-edge);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .crystal-card__body {
@@ -445,6 +467,18 @@
   
   .crystal-glass {
     background: rgba(255, 255, 255, 0.02);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.12),
+      var(--crystal-shadow-medium),
+      inset 0 1px 0 var(--crystal-edge-strong);
+  }
+  .crystal-card {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.12),
+      var(--crystal-shadow-medium),
+      inset 0 1px 0 var(--crystal-edge-light);
   }
   
   .crystal-button {

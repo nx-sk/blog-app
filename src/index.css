@@ -31,6 +31,17 @@ a {
   text-decoration: none;
 }
 
+/* Force consistent article title link color across states */
+.post-title-link,
+.post-title-link:link,
+.post-title-link:visited,
+.post-title-link:hover,
+.post-title-link:active,
+.post-title-link:focus {
+  color: #551a8b !important;
+  text-decoration: none !important;
+}
+
 img {
   max-width: 100%;
   height: auto;

@@ -55,8 +55,8 @@ const Home = () => {
   return (
     <Box
       display="grid"
-      gap={6}
-      gridTemplateColumns={{ base: '1fr', md: '260px minmax(0, 800px)' }}
+      gap={3}
+      gridTemplateColumns={{ base: '1fr', md: '310px minmax(0, 850px)' }}
       justifyContent={{ md: 'center' }}
       alignItems="start"
     >

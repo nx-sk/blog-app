@@ -8,7 +8,7 @@ const ProfileSidebar: React.FC = () => {
   const dispatch = useDispatch()
   const settings = useSelector((state: RootState) => state.settings.data)
   return (
-    <Box w={{ base: '100%', md: '250px' }} flexShrink={0} className="crystal-glass crystal-glass--surface" p={4} borderRadius="md">
+    <Box w={{ base: '100%', md: '300px' }} flexShrink={0} className="crystal-glass crystal-glass--surface no-hover" p={4} borderRadius="md">
       <HStack spacing={3} mb={3}>
         <Avatar name="Author" size="md" />
         <Box>
@@ -16,14 +16,16 @@ const ProfileSidebar: React.FC = () => {
           <Text fontSize="xs" color="text.meta">Technology, Design & Creative Engineering</Text>
         </Box>
       </HStack>
-      <InlineEditableField
-        value={settings?.sidebar_description || 'フルスタックにものづくりを楽しむ個人ブログ。設計メモや実験的な実装の備忘録を中心に更新しています。'}
-        onChange={(v) => dispatch({ type: 'settings/updateSettingsStart', payload: { sidebar_description: v } })}
-        as="textarea"
-        fontSize="sm"
-        multiline
-        tooltip="サイドバーの説明を編集"
-      />
+      <Box color="#000">
+        <InlineEditableField
+          value={settings?.sidebar_description || 'フルスタックにものづくりを楽しむ個人ブログ。設計メモや実験的な実装の備忘録を中心に更新しています。'}
+          onChange={(v) => dispatch({ type: 'settings/updateSettingsStart', payload: { sidebar_description: v } })}
+          as="textarea"
+          fontSize="sm"
+          multiline
+          tooltip="サイドバーの説明を編集"
+        />
+      </Box>
       <HStack spacing={3} mt={3}>
         <Link href="/" fontSize="xs" color="link.default">Twitter</Link>
         <Link href="/" fontSize="xs" color="link.default">GitHub</Link>

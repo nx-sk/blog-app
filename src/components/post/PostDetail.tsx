@@ -161,11 +161,11 @@ const PostDetail = ({ post }: PostDetailProps) => {
   return (
     <Box>
       {/* 記事全体のグラス背景ラッパー */}
-      <Box className="crystal-glass crystal-glass--surface" p={{ base: 4, md: 6 }} borderRadius="lg">
+      <Box className="crystal-glass crystal-glass--surface no-hover" p={{ base: 4, md: 6 }} borderRadius="md">
         {/* 固定幅の本文カラム（上限 660px・中央寄せ） */}
         <Box
           className="prose"
-          maxW="740px"
+          maxW="790px"
           w="100%"
           mx="auto"
           sx={{
