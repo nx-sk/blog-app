@@ -36,7 +36,7 @@ const postsSlice = createSlice({
       state.loading = false
       state.error = action.payload
     },
-    fetchPostStart: (state, action: PayloadAction<string>) => {
+    fetchPostStart: (state, action: PayloadAction<string | number>) => {
       state.loading = true
       state.error = null
     },

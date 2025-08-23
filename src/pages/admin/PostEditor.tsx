@@ -279,7 +279,7 @@ const PostEditor = () => {
 
   return (
     <>
-    <Box w={{ base: '100%', xl: '1000px' }} mr="auto" px={4} py={6}>
+    <Box w="100%" maxW={{ base: '100%', xl: '1200px', '2xl': '1400px' }} mx="auto" px={4} py={6}>
       <VStack spacing={6} align="stretch">
         <HStack justify="space-between" align="center">
           <Heading as="h1" size="xl">

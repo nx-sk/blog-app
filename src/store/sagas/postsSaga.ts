@@ -108,20 +108,24 @@ function* fetchAdminPostsSaga(): Generator<any, void, any> {
   }
 }
 
-function* fetchPostSaga(action: PayloadAction<string>): Generator<any, void, any> {
+function* fetchPostSaga(action: PayloadAction<string | number>): Generator<any, void, any> {
   try {
-    const slug = action.payload
+    const key = action.payload
     
     const { data, error } = yield call(async () => {
-      const result = await supabase
+      const base = supabase
         .from('posts')
         .select(`
           *,
           categories!posts_category_id_fkey(id, name, slug)
         `)
-        .eq('slug', slug)
-        .single()
-      return result
+
+      // 数値ならIDで検索、文字列ならスラッグで検索
+      const query = typeof key === 'number' || /^\d+$/.test(String(key))
+        ? base.eq('id', Number(key))
+        : base.eq('slug', String(key))
+
+      return await query.single()
     })
 
     if (error) {
