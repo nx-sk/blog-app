@@ -32,6 +32,7 @@ interface EnhancedPlainTextEditorProps {
   value: string
   onChange: (value: string) => void
   postId?: string
+  enableFloatingPreview?: boolean
 }
 
 interface TOCItem {
@@ -40,7 +41,7 @@ interface TOCItem {
   level: number
 }
 
-const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextEditorProps) => {
+const EnhancedPlainTextEditor = ({ value, onChange, postId, enableFloatingPreview = true }: EnhancedPlainTextEditorProps) => {
   const { colorMode } = useColorMode()
   const toast = useToast()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -50,7 +51,7 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
   const [selectedImageUrl, setSelectedImageUrl] = useState('')
   const [imageWidth, setImageWidth] = useState('')
   const [imageHeight, setImageHeight] = useState('')
-  const [showSidePreview, setShowSidePreview] = useState(true)
+  const [showSidePreview, setShowSidePreview] = useState(enableFloatingPreview)
   const [tocItems, setTocItems] = useState<TOCItem[]>([])
 
   // マークダウンから目次を生成
@@ -512,9 +513,11 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
           <Divider orientation="vertical" height="30px" />
 
           <Box flex={1} />
-          <Button size="sm" variant="outline" onClick={() => setShowSidePreview(v => !v)}>
-            {showSidePreview ? 'サイドプレビューを隠す' : 'サイドプレビューを表示'}
-          </Button>
+          {enableFloatingPreview && (
+            <Button size="sm" variant="outline" onClick={() => setShowSidePreview(v => !v)}>
+              {showSidePreview ? 'サイドプレビューを隠す' : 'サイドプレビューを表示'}
+            </Button>
+          )}
         </HStack>
       </Box>
 
@@ -564,7 +567,7 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId }: EnhancedPlainTextE
       </Box>
 
       {/* サイドの小さな全体プレビュー（固定配置） */}
-      {showSidePreview && (
+      {enableFloatingPreview && showSidePreview && (
         <Box
           position="fixed"
           right={{ base: 4, xl: 12 }}

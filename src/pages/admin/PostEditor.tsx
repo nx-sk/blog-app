@@ -33,6 +33,8 @@ import {
   clearCurrentPost,
 } from '../../store/slices/postsSlice'
 import EnhancedPlainTextEditor from '../../components/editor/EnhancedPlainTextEditor'
+import PostDetail from '../../components/post/PostDetail'
+import { setPreviewLayout, setPreviewSide } from '../../store/slices/uiSlice'
 import { supabase } from '../../services/supabase'
 import Loading from '../../components/common/Loading'
 import '../../styles/crystalGlass.css'
@@ -45,6 +47,7 @@ const PostEditor = () => {
   
   const { currentPost, loading } = useSelector((state: RootState) => state.posts)
   const { user } = useSelector((state: RootState) => state.auth)
+  const { previewLayout = 'horizontal', previewSide = 'right' } = useSelector((state: RootState) => state.ui)
   const details = useDisclosure()
   const imagePicker = useDisclosure()
   const [pickerImages, setPickerImages] = useState<string[]>([])
@@ -280,7 +283,7 @@ const PostEditor = () => {
 
   return (
     <>
-    <Box w="100%" maxW={{ base: '100%', xl: '1200px', '2xl': '1400px' }} mx="auto" px={4} py={6}>
+    <Box w="100%" maxW={{ base: '100%', '2xl': '1700px' }} mx="auto" px={4} py={6}>
       <VStack spacing={6} align="stretch">
         <HStack justify="space-between" align="center">
           <Heading as="h1" size="xl">
@@ -300,6 +303,17 @@ const PostEditor = () => {
                 }
               />
             </FormControl>
+            {/* プレビュー配置トグル */}
+            <HStack spacing={2}>
+              <Button size="sm" variant={previewLayout === 'horizontal' ? 'solid' : 'outline'} onClick={() => dispatch(setPreviewLayout('horizontal'))}>横配置</Button>
+              <Button size="sm" variant={previewLayout === 'vertical' ? 'solid' : 'outline'} onClick={() => dispatch(setPreviewLayout('vertical'))}>縦配置</Button>
+              {previewLayout === 'horizontal' && (
+                <HStack spacing={1}>
+                  <Button size="sm" variant={previewSide === 'left' ? 'solid' : 'outline'} onClick={() => dispatch(setPreviewSide('left'))}>左にプレビュー</Button>
+                  <Button size="sm" variant={previewSide === 'right' ? 'solid' : 'outline'} onClick={() => dispatch(setPreviewSide('right'))}>右にプレビュー</Button>
+                </HStack>
+              )}
+            </HStack>
             
             <Button
               variant="outline"
@@ -395,14 +409,118 @@ const PostEditor = () => {
 
         <Divider />
 
+        {/* エディタ + プレビュー レイアウト */}
         <Box className="crystal-glass crystal-glass--elevated" p={4} borderRadius="md">
           <FormControl isRequired>
             <FormLabel>本文（Markdown）</FormLabel>
-            <EnhancedPlainTextEditor
-              value={formData.content}
-              onChange={(value) => handleChange('content', value)}
-              postId={currentPost?.id?.toString()}
-            />
+            {/* レイアウトラッパー */}
+            <Box
+              display={{ base: 'block', xl: previewLayout === 'horizontal' ? 'grid' : 'block' }}
+              gridTemplateColumns={previewLayout === 'horizontal' ? (previewSide === 'left' ? '790px 40px 790px' : '790px 40px 790px') : undefined}
+              alignItems="start"
+              columnGap={4}
+            >
+              {/* 左（または先頭） */}
+              {(previewLayout === 'horizontal' && previewSide === 'left') ? (
+                <Box>
+                  <Box maxW="790px">
+                    <PostDetail post={{
+                      id: currentPost?.id || 0,
+                      title: formData.title || '(無題)',
+                      content: formData.content || '',
+                      slug: formData.slug,
+                      excerpt: formData.excerpt,
+                      featured_image: formData.featured_image,
+                      status: formData.status,
+                      published_at: formData.status === 'published' ? new Date().toISOString() : undefined,
+                      created_at: currentPost?.created_at || new Date().toISOString(),
+                      updated_at: currentPost?.updated_at || new Date().toISOString(),
+                      author_id: user?.id || '',
+                      categories: currentPost?.categories,
+                    } as any} />
+                  </Box>
+                </Box>
+              ) : (
+                <Box>
+                  <Box maxW="790px">
+                    <EnhancedPlainTextEditor
+                      value={formData.content}
+                      onChange={(value) => handleChange('content', value)}
+                      postId={currentPost?.id?.toString()}
+                      enableFloatingPreview={false}
+                    />
+                  </Box>
+                </Box>
+              )}
+
+              {/* 仕切り（横配置時のみスペーサー） */}
+              {previewLayout === 'horizontal' && (
+                <Box display={{ base: 'none', xl: 'block' }} />
+              )}
+
+              {/* 右（または後段） */}
+              {(previewLayout === 'horizontal' && previewSide === 'left') ? (
+                <Box>
+                  <Box maxW="790px">
+                    <EnhancedPlainTextEditor
+                      value={formData.content}
+                      onChange={(value) => handleChange('content', value)}
+                      postId={currentPost?.id?.toString()}
+                      enableFloatingPreview={false}
+                    />
+                  </Box>
+                </Box>
+              ) : (
+                <Box>
+                  <Box maxW="790px">
+                    <PostDetail post={{
+                      id: currentPost?.id || 0,
+                      title: formData.title || '(無題)',
+                      content: formData.content || '',
+                      slug: formData.slug,
+                      excerpt: formData.excerpt,
+                      featured_image: formData.featured_image,
+                      status: formData.status,
+                      published_at: formData.status === 'published' ? new Date().toISOString() : undefined,
+                      created_at: currentPost?.created_at || new Date().toISOString(),
+                      updated_at: currentPost?.updated_at || new Date().toISOString(),
+                      author_id: user?.id || '',
+                      categories: currentPost?.categories,
+                    } as any} />
+                  </Box>
+                </Box>
+              )}
+            </Box>
+
+            {/* 縦配置 */}
+            {previewLayout === 'vertical' && (
+              <Box>
+                <Box maxW="790px" mb={6}>
+                  <EnhancedPlainTextEditor
+                    value={formData.content}
+                    onChange={(value) => handleChange('content', value)}
+                    postId={currentPost?.id?.toString()}
+                    enableFloatingPreview={false}
+                  />
+                </Box>
+                <Box maxW="790px">
+                  <PostDetail post={{
+                    id: currentPost?.id || 0,
+                    title: formData.title || '(無題)',
+                    content: formData.content || '',
+                    slug: formData.slug,
+                    excerpt: formData.excerpt,
+                    featured_image: formData.featured_image,
+                    status: formData.status,
+                    published_at: formData.status === 'published' ? new Date().toISOString() : undefined,
+                    created_at: currentPost?.created_at || new Date().toISOString(),
+                    updated_at: currentPost?.updated_at || new Date().toISOString(),
+                    author_id: user?.id || '',
+                    categories: currentPost?.categories,
+                  } as any} />
+                </Box>
+              </Box>
+            )}
           </FormControl>
         </Box>
       </VStack>

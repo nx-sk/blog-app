@@ -5,6 +5,8 @@ const initialState: UIState = {
   theme: 'light',
   sidebarOpen: false,
   editorMode: 'split',
+  previewLayout: 'horizontal',
+  previewSide: 'right',
 }
 
 const uiSlice = createSlice({
@@ -26,6 +28,12 @@ const uiSlice = createSlice({
     setEditorMode: (state, action: PayloadAction<'edit' | 'preview' | 'split'>) => {
       state.editorMode = action.payload
     },
+    setPreviewLayout: (state, action: PayloadAction<'horizontal' | 'vertical'>) => {
+      state.previewLayout = action.payload
+    },
+    setPreviewSide: (state, action: PayloadAction<'left' | 'right'>) => {
+      state.previewSide = action.payload
+    },
   },
 })
 
@@ -35,6 +43,8 @@ export const {
   toggleSidebar,
   setSidebarOpen,
   setEditorMode,
+  setPreviewLayout,
+  setPreviewSide,
 } = uiSlice.actions
 
 export default uiSlice.reducer

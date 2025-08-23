@@ -65,4 +65,6 @@ export interface UIState {
   theme: 'light' | 'dark'
   sidebarOpen: boolean
   editorMode: 'edit' | 'preview' | 'split'
+  previewLayout?: 'horizontal' | 'vertical'
+  previewSide?: 'left' | 'right'
 }
