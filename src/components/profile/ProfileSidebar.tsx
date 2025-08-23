@@ -1,5 +1,6 @@
 import React from 'react'
-import { Box, Heading, Text, HStack, Link, Avatar } from '@chakra-ui/react'
+import { Box, Heading, Text, HStack, Link, Avatar, Icon } from '@chakra-ui/react'
+import { FiTwitter, FiGithub } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import InlineEditableField from '../editor/InlineEditableField'
@@ -7,6 +8,11 @@ import InlineEditableField from '../editor/InlineEditableField'
 const ProfileSidebar: React.FC = () => {
   const dispatch = useDispatch()
   const settings = useSelector((state: RootState) => state.settings.data)
+  const links: { type: string; label: string; url: string }[] =
+    (settings?.social_links as any) || [
+      { type: 'x', label: 'X', url: 'https://x.com/nx_sk_' },
+      { type: 'github', label: 'GitHub', url: 'https://github.com/nx-sk' },
+    ]
   return (
     <Box w={{ base: '100%', md: '300px' }} flexShrink={0} className="crystal-glass crystal-glass--surface no-hover" p={4} borderRadius="md">
       <HStack spacing={3} mb={3}>
@@ -27,8 +33,20 @@ const ProfileSidebar: React.FC = () => {
         />
       </Box>
       <HStack spacing={3} mt={3}>
-        <Link href="/" fontSize="xs" color="link.default">Twitter</Link>
-        <Link href="/" fontSize="xs" color="link.default">GitHub</Link>
+        {links.map((l) => (
+          <Link
+            key={l.type}
+            href={l.url}
+            isExternal
+            color="link.default"
+            aria-label={l.label}
+          >
+            <Icon
+              as={l.type === 'github' ? FiGithub : FiTwitter}
+              boxSize={5}
+            />
+          </Link>
+        ))}
       </HStack>
     </Box>
   )

@@ -29,7 +29,7 @@ import {
 import { Link as RouterLink } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
-import { fetchPostsStart, deletePostStart, setFilters } from '../../store/slices/postsSlice'
+import { fetchAdminPostsStart, deletePostStart, setFilters } from '../../store/slices/postsSlice'
 import { AddIcon, EditIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons'
 import Loading from '../../components/common/Loading'
 import '../../styles/crystalGlass.css'
@@ -45,7 +45,7 @@ const PostList = () => {
   const cancelRef = React.useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
-    dispatch(fetchPostsStart())
+    dispatch(fetchAdminPostsStart())
   }, [dispatch, filters])
 
   const handleDelete = (postId: number) => {

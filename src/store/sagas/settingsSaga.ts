@@ -37,7 +37,10 @@ function* fetchSettingsSaga(): Generator<any, void, any> {
         sidebar_title: 'Digital Atelier',
         sidebar_description:
           'フルスタックにものづくりを楽しむ個人ブログ。設計メモや実験的な実装の備忘録を中心に更新しています。',
-        social_links: [],
+        social_links: [
+          { type: 'x', label: 'X', url: 'https://x.com/nx_sk_' },
+          { type: 'github', label: 'GitHub', url: 'https://github.com/nx-sk' },
+        ],
       }
       const { data: inserted, error: insertError } = yield call(async () => {
         const res = await supabase.from('site_settings').insert(defaults).select('*').single()
@@ -98,4 +101,3 @@ export default function* settingsSaga() {
   yield takeEvery(fetchSettingsStart.type, fetchSettingsSaga)
   yield takeEvery(updateSettingsStart.type, updateSettingsSaga)
 }
-

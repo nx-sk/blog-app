@@ -22,6 +22,10 @@ const postsSlice = createSlice({
       state.loading = true
       state.error = null
     },
+    fetchAdminPostsStart: (state) => {
+      state.loading = true
+      state.error = null
+    },
     fetchPostsSuccess: (state, action: PayloadAction<{ posts: Post[]; totalCount: number }>) => {
       state.loading = false
       state.posts = action.payload.posts
@@ -107,6 +111,7 @@ const postsSlice = createSlice({
 
 export const {
   fetchPostsStart,
+  fetchAdminPostsStart,
   fetchPostsSuccess,
   fetchPostsFailure,
   fetchPostStart,

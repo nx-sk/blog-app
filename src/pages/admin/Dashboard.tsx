@@ -17,7 +17,7 @@ import {
 import { Link as RouterLink } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
-import { fetchPostsStart } from '../../store/slices/postsSlice'
+import { fetchAdminPostsStart } from '../../store/slices/postsSlice'
 import { AddIcon, EditIcon } from '@chakra-ui/icons'
 import '../../styles/crystalGlass.css'
 
@@ -29,7 +29,7 @@ const Dashboard = () => {
   const cardBg = 'transparent'
 
   useEffect(() => {
-    dispatch(fetchPostsStart())
+    dispatch(fetchAdminPostsStart())
   }, [dispatch])
 
   const publishedPosts = posts.filter(post => post.status === 'published')
