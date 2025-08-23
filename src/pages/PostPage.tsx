@@ -388,6 +388,7 @@ const PostPage = () => {
             <InlineMarkdownEditor
               value={currentEditingPost.content}
               onChange={(value) => handleUpdateField('content', value)}
+              minHeight="600px"
             />
           </VStack>
         ) : currentPost ? (

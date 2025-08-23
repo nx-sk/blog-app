@@ -64,7 +64,8 @@ const PostEditor = () => {
 
   useEffect(() => {
     if (isEdit && id) {
-      dispatch(fetchPostStart(id))
+      const numericId = Number(id)
+      dispatch(fetchPostStart(Number.isFinite(numericId) ? numericId : id))
     } else {
       dispatch(clearCurrentPost())
     }
