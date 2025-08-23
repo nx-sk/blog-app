@@ -287,6 +287,7 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId, enableFloatingPrevie
   // プレビューコンテンツ
   const PreviewContent = () => (
     <Box
+      className="prose"
       height="100%"
       overflowY="auto"
       bg={colorMode === 'dark' ? 'gray.800' : 'white'}
@@ -318,13 +319,16 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId, enableFloatingPrevie
         '& p': {
           mb: 2,
           lineHeight: 1.7,
+          fontSize: '11.5px',
         },
         '& ul, & ol': {
           mb: 2,
           pl: 5,
+          fontSize: '11.5px',
         },
         '& li': {
           mb: 1,
+          fontSize: '11.5px',
         },
         '& code': {
           bg: colorMode === 'dark' ? 'gray.700' : 'gray.100',
@@ -332,15 +336,21 @@ const EnhancedPlainTextEditor = ({ value, onChange, postId, enableFloatingPrevie
           px: 1,
           py: 0.5,
           borderRadius: 'sm',
-          fontSize: 'xs',
+          fontSize: '10.5px',
           fontFamily: 'mono',
         },
         '& pre': {
           bg: colorMode === 'dark' ? 'gray.700' : 'gray.100',
           p: 3,
           borderRadius: 'md',
-          overflowX: 'auto',
+          whiteSpace: 'pre-wrap',
+          wordBreak: 'break-word',
+          overflowX: 'unset',
           mb: 2,
+          fontSize: '9px',
+        },
+        '& pre code': {
+          fontSize: '9px',
         },
         '& a': {
           color: colorMode === 'dark' ? 'blue.300' : 'blue.600',

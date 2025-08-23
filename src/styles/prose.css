@@ -33,9 +33,19 @@
 .prose p,
 .prose ul,
 .prose ol,
+.prose li,
 .prose blockquote,
 .prose pre {
   margin-bottom: 1rem;
+}
+
+/* Unified body text size for article content */
+.prose p,
+.prose ul,
+.prose ol,
+.prose li,
+.prose blockquote {
+  font-size: 11.5px !important;
 }
 
 .prose a {
@@ -55,7 +65,16 @@
   background: var(--chakra-colors-gray-100);
   padding: 0.75rem;
   border-radius: 0.5rem;
-  overflow-x: auto;
+  /* Unify code block appearance across views */
+  font-size: 10.5px !important;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: unset;
+}
+
+/* Ensure nested code inside pre follows the same size */
+.prose pre code {
+  font-size: 10.5px !important;
 }
 
 .prose img {

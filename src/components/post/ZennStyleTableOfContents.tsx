@@ -59,10 +59,10 @@ const ZennStyleTableOfContents = ({ items }: ZennStyleTableOfContentsProps) => {
   const scrollToHeading = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
+      const headerOffset = 100 // 固定ヘッダー分のオフセット
+      const rect = element.getBoundingClientRect()
+      const y = rect.top + window.pageYOffset - headerOffset
+      window.scrollTo({ top: y, behavior: 'smooth' })
     }
   }
 
@@ -71,8 +71,8 @@ const ZennStyleTableOfContents = ({ items }: ZennStyleTableOfContentsProps) => {
   return (
     <Box
       position="fixed"
-      right="40px"
-      top="50%"
+      left="calc(50% + 395px + 24px)"
+      top="calc(50% - 220px)"
       transform="translateY(-50%)"
       w="240px"
       maxH="70vh"
@@ -81,7 +81,7 @@ const ZennStyleTableOfContents = ({ items }: ZennStyleTableOfContentsProps) => {
       backdropFilter="blur(12px) saturate(160%)"
       border="1px solid"
       borderColor={borderColor}
-      borderRadius="16px"
+      borderRadius="md"
       p={4}
       boxShadow="0 8px 24px rgba(0,0,0,0.2)"
       zIndex={10}

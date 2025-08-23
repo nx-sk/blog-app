@@ -7,7 +7,7 @@ const theme = extendTheme({
   },
   fonts: {
     heading: `Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`,
-    body: `Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`,
+    body: `Meiryo, "メイリオ", "Meiryo UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`,
   },
   colors: {
     // Calibrated neutral palette for better contrast on white
@@ -76,6 +76,7 @@ const theme = extendTheme({
         color: 'text.primary',
         fontSize: '16px',
         lineHeight: '1.7',
+        fontFamily: 'body',
       },
       '::selection': {
         bg: 'rgba(168, 85, 247, 0.18)',

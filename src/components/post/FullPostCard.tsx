@@ -64,7 +64,6 @@ const FullPostCard = ({ post }: FullPostCardProps) => {
         className="prose"
         color={textColor}
         lineHeight={1.8}
-        fontSize="md"
         maxW="790px"
         mx="auto"
         sx={{

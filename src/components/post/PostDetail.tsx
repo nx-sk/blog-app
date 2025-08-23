@@ -104,7 +104,7 @@ const PostDetail = ({ post }: PostDetailProps) => {
       return <Heading as="h6" size="xs" mt={2} mb={1} id={id} {...props}>{children}</Heading>
     },
     p: ({ children, ...props }: any) => (
-      <Text mb={4} lineHeight="1.7" color={textColor} {...props}>{children}</Text>
+      <Text mb={4} lineHeight="1.7" color={textColor} fontSize="11.5px" {...props}>{children}</Text>
     ),
     code({ node, inline, className, children, ...props }: any) {
       const match = /language-(\w+)/.exec(className || '')
@@ -114,6 +114,9 @@ const PostDetail = ({ post }: PostDetailProps) => {
             style={codeStyle}
             language={match[1]}
             PreTag="div"
+            wrapLongLines
+            customStyle={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowX: 'unset', fontSize: '10.5px' }}
+            codeTagProps={{ style: { whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontSize: '10.5px' } }}
             {...props}
           >
             {String(children).replace(/\n$/, '')}
@@ -142,19 +145,20 @@ const PostDetail = ({ post }: PostDetailProps) => {
         my={4}
         bg={colorMode === 'dark' ? 'gray.700' : 'gray.50'}
         fontStyle="italic"
+        fontSize="11.5px"
         {...props}
       >
         {children}
       </Box>
     ),
     ul: ({ children, ...props }: any) => (
-      <Box as="ul" pl={4} mb={4} {...props}>{children}</Box>
+      <Box as="ul" pl={4} mb={4} fontSize="11.5px" {...props}>{children}</Box>
     ),
     ol: ({ children, ...props }: any) => (
-      <Box as="ol" pl={4} mb={4} {...props}>{children}</Box>
+      <Box as="ol" pl={4} mb={4} fontSize="11.5px" {...props}>{children}</Box>
     ),
     li: ({ children, ...props }: any) => (
-      <Box as="li" mb={1} {...props}>{children}</Box>
+      <Box as="li" mb={1} fontSize="11.5px" {...props}>{children}</Box>
     ),
   }
 
@@ -169,6 +173,7 @@ const PostDetail = ({ post }: PostDetailProps) => {
           w="100%"
           sx={{
             '& a': { overflowWrap: 'anywhere', wordBreak: 'break-word' },
+            '& h1, & h2, & h3, & h4, & h5, & h6': { scrollMarginTop: '100px' },
           }}
         >
           {/* ヘッダー部分（アイキャッチは表示しない） */}

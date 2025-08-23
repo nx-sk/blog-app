@@ -70,8 +70,8 @@ const PostCard = ({ post }: PostCardProps) => {
             <Text 
               color={textColor} 
               noOfLines={2}
-              fontSize="xs"
-              lineHeight="1.5"
+              fontSize="11.5px"
+              lineHeight="1.6"
             >
               {post.excerpt}
             </Text>
